@@ -23,6 +23,12 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $user = $this->getUser();
+
+        if (!$user->student_verified_at) {
+            return view('not_verified.index');
+        }
+
         return view('admin.dashboard.index');
     }
 }

@@ -85,6 +85,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => bcrypt('admin@admin.com'),
             'status_pendaftaran' => 'Admin',
+            'student_verified_at' => now(),
+            'student_verified_by' => 'Sistem',
         ]);
 
         $adminUser->addRole($adminRole);
