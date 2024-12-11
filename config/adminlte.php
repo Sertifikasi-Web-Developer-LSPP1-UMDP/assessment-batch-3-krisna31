@@ -64,7 +64,7 @@ return [
     */
 
     'logo' => '<b>Yoklah Sekolah</b>',
-    'logo_img' => 'assets/images/logo_yoklah_sekolah.webp',
+    'logo_img' => 'assets/images/logo_yoklah_university.webp',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -86,7 +86,7 @@ return [
     'auth_logo' => [
         'enabled' => false,
         'img' => [
-            'path' => 'assets/images/logo_yoklah_sekolah.webp',
+            'path' => 'assets/images/logo_yoklah_university.webp',
             'alt' => 'Yoklah Sekolah',
             'class' => '',
             'width' => 50,
@@ -113,7 +113,7 @@ return [
         'enabled' => true,
         'mode' => 'fullscreen',
         'img' => [
-            'path' => 'assets/images/logo_yoklah_sekolah.webp',
+            'path' => 'assets/images/logo_yoklah_university.webp',
             'alt' => 'AdminLTE Preloader Image',
             'effect' => 'animation__wobble',
             'width' => 60,
