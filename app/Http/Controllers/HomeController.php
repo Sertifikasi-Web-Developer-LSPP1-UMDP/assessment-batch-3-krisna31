@@ -29,6 +29,10 @@ class HomeController extends Controller
             return view('not_verified.index');
         }
 
-        return view('admin.dashboard.index');
+        if ($user->hasRole('admin')) {
+            return view('admin.dashboard.index');
+        }
+
+        return view('student.index');
     }
 }
