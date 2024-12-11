@@ -91,40 +91,50 @@
     </div>
 
     {{-- * Form Modal --}}
-    {{-- <div class="modal fade" id="formmodal" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modal-header-title">-</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+    <x-modal>
+        <x-slot name="id_modal">status-modal</x-slot>
+        <x-slot name="is_form">false</x-slot>
+        <x-slot name="modal_size">xl</x-slot>
 
-                @include('errors.validation')
-                <form id="form">
-                    <div class="modal-body">
-                        <div class="row">
-
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="nama_bank">Nama User</label>
-                                    <input type="text" name="nama_bank" id="nama_bank" class="form-control"
-                                        placeholder="Masukkan Nama User" required maxlength="255"
-                                        oninput="return autoCapslock(this)">
-                                </div>
-                            </div>
+        <x-slot name="slot">
+            <form autocomplete="off" id="status-mahasiswa-form">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="name">Nama Mahasiswa:</label>
+                            <input class="form-control" type="text" id="name" readonly>
                         </div>
                     </div>
-
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-success submit-button">Tambah</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="status">Status:</label>
+                            <select class="form-control select" id="status" style="width: 100%" required="required"
+                                name="status" tabindex="-1" aria-hidden="true" data-placeholder="Pilih Status">
+                                @foreach ($statuses as $status)
+                                    <option value="{{ $status->value }}">
+                                        {{ $status->value }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                </form>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 text-right">
+                        <button type="submit" class="btn btn-success submit-button">Tambah Data</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="row mt-2">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="status-mahasiswa-histories-table"
+                        style="width: 100%; font-size: 12px;"></table>
+                </div>
             </div>
-        </div>
-    </div> --}}
+        </x-slot>
+    </x-modal>
 @stop
 
 @section('css')
@@ -171,8 +181,8 @@
                         data: 'student_verified_at',
                         title: 'Diverifikasi Pada',
                         render: (data, type, row) => {
-                            return data ? moment(data, 'YYYY-MM-DD h:m:s').format(
-                                'DD-MM-YYYY h:m:s') : '';
+                            return data ? moment(data, 'YYYY-MM-DD hh:mm:ss').format(
+                                'DD-MM-YYYY hh:mm:ss') : '';
                         }
                     },
                     {
@@ -188,6 +198,9 @@
                             return `
                                 <button type="submit" class="btn btn-success btn-xs" onclick="verifikasiDaftarAkun('${full.id}', '${full.email}')">
                                     <i class="fa fa-check"></i>
+                                </button>
+                                <button type="submit" class="btn btn-info btn-xs" onclick="updateStatusMahasiswa('${full.id}', '${full.name}')">
+                                    <i class="fa fa-edit"></i>
                                 </button>
                             `;
                         },
@@ -215,6 +228,81 @@
                         .fail(data => handleFailAjax(data));
                 }
             })
+        }
+
+        function updateStatusMahasiswa(userId, name) {
+            let data = $('#data-table').DataTable().row('.selected').data();
+
+            $('#status-mahasiswa-histories-table').DataTable({
+                destroy: true,
+                serverSide: true,
+                info: false,
+                scrollCollapse: true,
+                ajax: `{{ route('users.index') }}/${userId}/status`,
+                order: [
+                    [1, 'desc']
+                ],
+                columns: [{
+                        data: 'status',
+                        title: 'Status',
+                        render: (data, type, row) => {
+                            let badgeClass = 'badge-success';
+
+                            switch (data) {
+                                case 'TOLAK':
+                                    badgeClass = 'badge-danger';
+                                    break;
+                                case 'BARU':
+                                    badgeClass = 'badge-warning';
+                                    break;
+                                case 'PENDING':
+                                    badgeClass = 'badge-info    ';
+                                    break;
+                            }
+
+                            return `<span class="badge ${badgeClass}" style="font-size: .8rem;">${data}</span>`;
+                        }
+                    },
+                    {
+                        data: 'created_at',
+                        title: 'Dibuat Pada',
+                        render: (data, type, row) => {
+                            return data ? moment(data, 'YYYY-MM-DD hh:mm:ss').format(
+                                'DD-MM-YYYY hh:mm:ss') : '';
+                        }
+                    },
+                ],
+                preDrawCallback: function() {
+                    $(this.api().table().header()).addClass('bg-info');
+                },
+                drawCallback: settings => {
+                    adjustDataTableColumnWidth();
+                    $('.dt-scroll-body').css('min-height', '40vh');
+                }
+            })
+
+            $('#status-modal')
+                .find('#modal-header-title').html(`Status History <b>${name}</b>`).end()
+                .find('form').attr('data-id', userId).end()
+                .modal('show');
+
+            $('#name').val(name);
+
+            $('#status-mahasiswa-form').off('submit').on('submit', function(e) {
+                e.preventDefault();
+                loading();
+
+                let formData = $(this).serialize() + `&kode_customer=${this.getAttribute('data-id')}`;
+                let url = `{{ route('users.index') }}/${userId}/status`;
+
+                $.post(url, formData)
+                    .done(data => {
+                        handleSuccessAjax(data, null, null,
+                            '#status-mahasiswa-histories-table');
+                        refreshTable();
+                    })
+                    .fail(data => handleFailAjax(data));
+            });
         }
     </script>
 @stop

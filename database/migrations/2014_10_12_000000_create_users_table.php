@@ -33,6 +33,7 @@ return new class extends Migration
             $table->string('student_verified_by')->nullable();
             $table->timestamp('student_verified_at')->nullable();
             $table->string('deleted_by')->nullable();
+            $table->string('status_pendaftaran');
             $table->softDeletes();
             $table->string('password');
             $table->rememberToken();

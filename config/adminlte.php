@@ -306,12 +306,26 @@ return [
         ],
 
         // Sidebar items:
+        ['header' => 'Dashboard'],
+        [
+            'text' => 'Dashboard',
+            'url' => 'home',
+            'icon' => 'fas fa-fw fa-home',
+            // 'permission' => ''
+        ],
         ['header' => 'Master Data'],
         [
             'text' => 'Pengguna dan Mahasiswa',
             'url' => 'admin/users',
             'icon' => 'fas fa-fw fa-user',
             // 'permission' => ''
+        ],
+        ['header' => 'Administrations'],
+        [
+            'text' => 'System Logs',
+            'url'  => 'admin/logs',
+            'icon' => 'fas fa-fw fa-history',
+            // 'permission' => 'create-users',
         ],
         // [
         //     'type' => 'sidebar-menu-search',
@@ -484,18 +498,30 @@ return [
                 ],
             ],
         ],
-        'Select2' => [
-            'active' => false,
+        // * untuk menampilkan simple notify di browser
+        'NotifyJs' => [
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
+                    'asset' => true,
+                    'location' => '/js/notify.min.js',
+                ],
+            ],
+        ],
+        // * untuk membuat select input lebih interaktif
+        'Select2' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => '/js/select2.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
+                    'asset' => true,
+                    'location' => '/css/select2.css',
                 ],
             ],
         ],

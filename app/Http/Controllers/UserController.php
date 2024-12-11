@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\StatusPendaftaran;
+use App\Models\StatusMahasiswaHistory;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -14,7 +19,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('admin.users.index');
+        $statuses = StatusPendaftaran::cases();
+
+        return view('admin.users.index', compact('statuses'));
     }
 
     /**
@@ -91,5 +98,51 @@ class UserController extends Controller
             'message' => 'User Berhasil Diverifikasi',
             'data' => null,
         ]);
+    }
+
+    public function getStatusHistories(Request $request, $id)
+    {
+        $data = StatusMahasiswaHistory::where('user_id', $id);
+
+        return DataTables::of($data)->make(true);
+    }
+
+    public function
+    storeStatusHistories(Request $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            if (!$id) throw new HttpException(400, 'ID Tidak Boleh Kosong');
+
+            $user = User::find($id);
+
+            if (!$user) throw new HttpException(400, 'Data User Tidak Ditemukan');
+
+            $statuses = array_map(fn($status) => $status->value, StatusPendaftaran::cases());
+
+            $request->validate([
+                'status' => ['required', 'string', 'max:255', Rule::in($statuses)],
+            ]);
+
+            $savedData = StatusMahasiswaHistory::create([
+                'user_id' => $id,
+                'status' => $request->status,
+            ]);
+
+            DB::commit();
+            return response()->json([
+                'success' => true,
+                'title' => 'Berhasil',
+                'message' => 'User Berhasil Diverifikasi',
+                'data' => null,
+            ]);
+        } catch (HttpException $e) {
+            DB::rollBack();
+            throw new HttpException($e->getStatusCode(), $e->getMessage());
+        } catch (\Throwable $e) {
+            Log::critical($this->getUser()->username . json_encode($request->all()) . " - $e");
+            DB::rollBack();
+            throw new HttpException(500, 'Ada kesalahan di sisi server, silahkan coba lagi, jika berulang laporkan masalah ini ke administrator');
+        }
     }
 }

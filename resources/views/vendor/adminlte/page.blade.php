@@ -4,6 +4,74 @@
 @inject('preloaderHelper', 'JeroenNoten\LaravelAdminLte\Helpers\PreloaderHelper')
 
 @section('adminlte_css')
+    <style>
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            border: 1px solid #d2d6de;
+            border-radius: 0;
+            padding: 6px 12px;
+            height: 34px
+        }
+
+        .select2-container--default .select2-selection--single {
+            background-color: #fff;
+            border: 1px solid #aaa;
+            border-radius: 4px
+        }
+
+        .select2-container .select2-selection--single {
+            box-sizing: border-box;
+            cursor: pointer;
+            display: block;
+            height: 28px;
+            user-select: none;
+            -webkit-user-select: none
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            padding-right: 10px
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            padding-left: 0;
+            padding-right: 0;
+            height: auto;
+            margin-top: -3px
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #444;
+            line-height: 28px
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            border: 1px solid #d2d6de;
+            border-radius: 0 !important;
+            padding: 6px 12px;
+            height: 40px !important
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__clear {
+            height: 26px;
+            position: absolute;
+            top: 5px !important;
+            right: 10px;
+            width: 20px
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 26px;
+            position: absolute;
+            top: 6px !important;
+            right: 1px;
+            width: 20px
+        }
+
+        .select2-selection__choice {
+            color: black !important;
+        }
+    </style>
     @stack('css')
     @yield('css')
 @stop
@@ -57,6 +125,26 @@
         // $.fn.dataTable.defaults.fnHeaderCallback = () => OverlayScrollbars(document.querySelectorAll('.dt-scroll-body'), {});
         // * Set the default locale for moment.js
         moment.locale('id');
+
+        // Select2
+        $('.select:not(#formmodal .select)').select2({
+            placeholder: function() {
+                return $(this).data('placeholder');
+            },
+            allowClear: $(this).data('allow-clear') ?? true,
+            closeOnSelect: $(this).data('close-on-select') ?? true,
+            width: '100%',
+        });
+
+        $('#formmodal .select').select2({
+            placeholder: function() {
+                return $(this).data('placeholder');
+            },
+            allowClear: $(this).data('allow-clear') ?? true,
+            closeOnSelect: $(this).data('close-on-select') ?? true,
+            width: '100%',
+            dropdownParent: $('#formmodal')
+        });
 
         // * Attach error handling to all existing and future DataTables
         $.fn.dataTable.ext.errMode = function(settings, helpPage, message) {
@@ -165,6 +253,47 @@
                     .columns.adjust();
             }, 0);
         }
+
+        // Notificaion
+        function loading() {
+            return Swal.fire({
+                title: "<b>Proses Sedang Berlangsung</b>",
+                icon: "warning",
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                allowEscapeKey: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+            });
+        }
+
+        $(document).ready(() => {
+            @if (Session::has('error'))
+                $.notify("{!! Session::get('error') !!}", {
+                    className: "error",
+                    autoHideDelay: 15000,
+                    position: "top center"
+                });
+            @endif
+
+            @if (Session::has('success'))
+                $.notify("{!! Session::get('success') !!}", {
+                    className: "success",
+                    autoHideDelay: 15000,
+                    position: "top center"
+                });
+            @endif
+
+            @if (Session::has('info'))
+                $.notify("{!! Session::get('info') !!}", {
+                    className: "info",
+                    autoHideDelay: 15000,
+                    position: "top center"
+                });
+            @endif
+        });
     </script>
     @stack('js')
     @yield('js')
