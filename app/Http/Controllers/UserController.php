@@ -19,62 +19,65 @@ class UserController extends Controller
      */
     public function index()
     {
+        if (!$this->getUser()->hasPermission('view-users')) throw new HttpException(403, "Anda Tidak Memiliki Akses Pada Resources Ini");
+
         $statuses = StatusPendaftaran::cases();
 
         return view('admin.users.index', compact('statuses'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    // /**
+    //  * Show the form for creating a new resource.
+    //  */
+    // public function create()
+    // {
+    //     //
+    // }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    // /**
+    //  * Store a newly created resource in storage.
+    //  */
+    // public function store(Request $request)
+    // {
+    //     //
+    // }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+    // /**
+    //  * Display the specified resource.
+    //  */
+    // public function show(string $id)
+    // {
+    //     //
+    // }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  */
+    // public function edit(string $id)
+    // {
+    //     //
+    // }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    // /**
+    //  * Update the specified resource in storage.
+    //  */
+    // public function update(Request $request, string $id)
+    // {
+    //     //
+    // }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    // /**
+    //  * Remove the specified resource from storage.
+    //  */
+    // public function destroy(string $id)
+    // {
+    //     //
+    // }
 
     public function anydata(Request $request)
     {
-        // if ($this->getUser()->hasPermission('manage'))
+        if (!$this->getUser()->hasPermission('manage-users')) throw new HttpException(403, "Anda Tidak Memiliki Akses Pada Resources Ini");
+
         $data = User::query();
 
         return DataTables::of($data)->make(true);
@@ -82,6 +85,8 @@ class UserController extends Controller
 
     public function verifikasiPembuatanAkun(Request $request, $id)
     {
+        if (!$this->getUser()->hasPermission('verifikasi-user')) throw new HttpException(403, "Anda Tidak Memiliki Akses Pada Resources Ini");
+
         DB::beginTransaction();
         try {
             if (!$id) throw new HttpException(400, 'ID Tidak Boleh Kosong');
@@ -109,6 +114,8 @@ class UserController extends Controller
 
     public function getStatusHistories(Request $request, $id)
     {
+        if (!$this->getUser()->hasPermission('update-status-user')) throw new HttpException(403, "Anda Tidak Memiliki Akses Pada Resources Ini");
+
         $data = StatusMahasiswaHistory::where('user_id', $id);
 
         return DataTables::of($data)->make(true);
@@ -116,6 +123,8 @@ class UserController extends Controller
 
     public function storeStatusHistories(Request $request, $id)
     {
+        if (!$this->getUser()->hasPermission('update-status-user')) throw new HttpException(403, "Anda Tidak Memiliki Akses Pada Resources Ini");
+
         DB::beginTransaction();
         try {
             if (!$id) throw new HttpException(400, 'ID Tidak Boleh Kosong');

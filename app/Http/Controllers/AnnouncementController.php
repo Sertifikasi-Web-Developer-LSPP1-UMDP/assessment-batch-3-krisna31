@@ -18,24 +18,28 @@ class AnnouncementController extends Controller
      */
     public function index()
     {
+        if (!$this->getUser()->hasPermission('manage-announcements')) throw new HttpException(403, "Anda Tidak Memiliki Akses Pada Resources Ini");
+
         $statuses = StatusGlobal::cases();
 
         return view('admin.announcement.index', compact('statuses'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    // /**
+    //  * Show the form for creating a new resource.
+    //  */
+    // public function create()
+    // {
+    //     //
+    // }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
+        if (!$this->getUser()->hasPermission('manage-announcements')) throw new HttpException(403, "Anda Tidak Memiliki Akses Pada Resources Ini");
+
         $validatedRequest = $request->validate([
             'urutan' => 'required|integer|unique:\App\Models\Announcement,urutan',
             'path' => 'required|file|image|max:10240|mimes:jpg,jpeg,png',
@@ -64,27 +68,29 @@ class AnnouncementController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Announcement $announcement)
-    {
-        //
-    }
+    // /**
+    //  * Display the specified resource.
+    //  */
+    // public function show(Announcement $announcement)
+    // {
+    //     //
+    // }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Announcement $announcement)
-    {
-        //
-    }
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  */
+    // public function edit(Announcement $announcement)
+    // {
+    //     //
+    // }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Announcement $announcement)
     {
+        if (!$this->getUser()->hasPermission('manage-announcements')) throw new HttpException(403, "Anda Tidak Memiliki Akses Pada Resources Ini");
+
         if (!$announcement->id) throw new HttpException(400, 'Data Tidak Ditemukan');
 
         $statuses = array_map(fn($status) => $status->value, StatusGlobal::cases());
@@ -125,6 +131,8 @@ class AnnouncementController extends Controller
      */
     public function destroy(Announcement $announcement)
     {
+        if (!$this->getUser()->hasPermission('manage-announcements')) throw new HttpException(403, "Anda Tidak Memiliki Akses Pada Resources Ini");
+
         if (!$announcement->id) throw new HttpException(400, 'Data Tidak Ditemukan');
 
         DB::beginTransaction();
@@ -139,7 +147,7 @@ class AnnouncementController extends Controller
             DB::rollBack();
             throw new HttpException($e->getStatusCode(), $e->getMessage());
         } catch (\Throwable $e) {
-            Log::critical($this->getUser()->username . json_encode($request->all()) . " - $e");
+            Log::critical($this->getUser()->username . " - $e");
             DB::rollBack();
             throw new HttpException(500, 'Ada kesalahan di sisi server, silahkan coba lagi, jika berulang laporkan masalah ini ke administrator');
         }
@@ -147,6 +155,8 @@ class AnnouncementController extends Controller
 
     public function anydata(Request $request)
     {
+        if (!$this->getUser()->hasPermission('manage-announcements')) throw new HttpException(403, "Anda Tidak Memiliki Akses Pada Resources Ini");
+
         $data = Announcement::query();
 
         return DataTables::of($data)->make(true);

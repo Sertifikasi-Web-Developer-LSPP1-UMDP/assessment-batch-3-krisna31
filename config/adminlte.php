@@ -318,13 +318,13 @@ return [
             'text' => 'Pengguna dan Mahasiswa',
             'url' => 'admin/users',
             'icon' => 'fas fa-fw fa-user',
-            // 'permission' => ''
+            'permission' => 'view-users'
         ],
         [
             'text' => 'Pengumuman',
             'url' => 'admin/announcements',
             'icon' => 'fas fa-fw fa-info-circle',
-            // 'permission' => ''
+            'permission' => 'manage-announcements'
         ],
         ['header' => 'Administrations'],
         [

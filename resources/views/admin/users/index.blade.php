@@ -191,22 +191,24 @@
                         orderable: false,
                         render: function(data, type, full) {
                             let button = ``;
-                            console.log(full.student_verified_at);
 
+                            @permission('verifikasi-user')
+                                if (!full.student_verified_at) {
+                                    button += `
+                                        <button type="submit" class="btn btn-success btn-xs" onclick="verifikasiDaftarAkun('${full.id}', '${full.email}')">
+                                            <i class="fa fa-check"></i>
+                                            </button>
+                                            `;
+                                }
+                            @endpermission
 
-                            if (!full.student_verified_at) {
+                            @permission('update-status-user')
                                 button += `
-                                    <button type="submit" class="btn btn-success btn-xs" onclick="verifikasiDaftarAkun('${full.id}', '${full.email}')">
-                                        <i class="fa fa-check"></i>
-                                    </button>
-                                `;
-                            }
-
-                            button += `
-                                <button type="submit" class="btn btn-info btn-xs" onclick="updateStatusMahasiswa('${full.id}', '${full.name}')">
-                                    <i class="fa fa-edit"></i>
-                                </button>
-                            `;
+                                        <button type="submit" class="btn btn-info btn-xs" onclick="updateStatusMahasiswa('${full.id}', '${full.name}')">
+                                            <i class="fa fa-edit"></i>
+                                            </button>
+                                            `;
+                            @endpermission
 
                             return button;
                         },
