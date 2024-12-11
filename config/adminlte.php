@@ -313,7 +313,7 @@ return [
             'icon' => 'fas fa-fw fa-home',
             // 'permission' => ''
         ],
-        ['header' => 'Master Data'],
+        ['header' => 'Master Data', 'permission' => 'view-users'],
         [
             'text' => 'Pengguna dan Mahasiswa',
             'url' => 'admin/users',
@@ -326,7 +326,7 @@ return [
             'icon' => 'fas fa-fw fa-info-circle',
             'permission' => 'manage-announcements'
         ],
-        ['header' => 'Administrations'],
+        ['header' => 'Administrations', 'permission' => 'manage-laratrust'],
         [
             'text' => 'User | Roles | Permissions',
             'url'  => 'manage-authz',
@@ -442,6 +442,7 @@ return [
         JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\LangFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\DataFilter::class,
+        \App\Menu\PermissionFilter::class,
     ],
 
     /*

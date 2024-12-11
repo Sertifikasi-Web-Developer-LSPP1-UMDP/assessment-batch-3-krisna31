@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Enum\StatusPendaftaran;
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\StatusMahasiswaHistory;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -71,6 +72,10 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'status_pendaftaran' => StatusPendaftaran::BARU->value,
         ]);
+
+        $mahasiswaRole = Role::find(Role::MAHASISWA);
+
+        $user->syncRoles([$mahasiswaRole]);
 
         StatusMahasiswaHistory::create([
             'user_id' => $user->id,
