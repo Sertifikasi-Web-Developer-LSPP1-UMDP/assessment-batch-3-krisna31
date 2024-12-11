@@ -293,6 +293,12 @@
                     position: "top center"
                 });
             @endif
+
+            $('.modal-dialog').draggable({
+                handle: ".modal-header"
+            });
+
+            $('.modal-dialog').resizable({});
         });
     </script>
     @stack('js')

@@ -321,23 +321,23 @@ return [
             // 'permission' => ''
         ],
         [
-            'text' => 'Informasi dan Pengumuman',
-            'url' => 'admin/informasi',
+            'text' => 'Pengumuman',
+            'url' => 'admin/announcements',
             'icon' => 'fas fa-fw fa-info-circle',
             // 'permission' => ''
         ],
         ['header' => 'Administrations'],
         [
             'text' => 'User | Roles | Permissions',
-            'url'  => 'laratrust',
+            'url'  => 'manage-authz',
             'icon' => 'fas fa-fw fa-user-shield',
-            // 'permission' => 'create-users',
+            'permission' => 'manage-laratrust',
         ],
         [
             'text' => 'System Logs',
             'url'  => 'admin/logs',
             'icon' => 'fas fa-fw fa-history',
-            // 'permission' => 'create-users',
+            'permission' => 'manage-laratrust',
         ],
         // [
         //     'type' => 'sidebar-menu-search',
@@ -534,6 +534,22 @@ return [
                     'type' => 'css',
                     'asset' => true,
                     'location' => '/css/select2.css',
+                ],
+            ],
+        ],
+        // * untuk modal draggable
+        'jquery-ui' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => '/js/jquery-ui/jquery-ui.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => '/js/jquery-ui/jquery-ui.min.js',
                 ],
             ],
         ],

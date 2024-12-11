@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CustomLogsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use App\Models\Announcement;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,14 +31,15 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('users/{id}/status', [UserController::class, 'getStatusHistories'])->name('users.getStatusHistories');
     Route::post('users/{id}/status', [UserController::class, 'storeStatusHistories'])->name('users.getStatusHistories');
     Route::patch('users/{id}/verifikasiPembuatanAkun', [UserController::class, 'verifikasiPembuatanAkun'])->name('users.verifikasiPembuatanAkun');
-    Route::resource('users', UserController::class);
+    Route::resource('users', UserController::class)->except(['create', 'store', 'show', 'edit', 'update', 'destroy']);
 
-    // Route::res
+    Route::get('announcements/anydata', [AnnouncementController::class, 'anydata'])->name('announcements.anydata');
+    Route::resource('announcements', AnnouncementController::class);
 
     // * Logs Route
     Route::get('logs', [CustomLogsController::class, 'index']);
+});
 
-    Route::fallback(function () {
-        return redirect()->route('home')->with('error', 'Page not found');
-    });
+Route::fallback(function () {
+    return redirect()->route('home')->with('error', 'Halaman Tidak Ditemukan');
 });

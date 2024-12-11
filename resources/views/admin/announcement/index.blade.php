@@ -16,11 +16,11 @@
                         <i class="fa fa-sync"></i> Refresh
                     </button>
                     {{-- * Create Button --}}
-                    {{-- @permission('create-users')
-                        <button type="button" class="btn btn-success btn-xs create-button">
-                            <i class="fa fa-plus"></i> New User
-                        </button>
-                    @endpermission --}}
+                    {{-- @permission('create-users') --}}
+                    <button type="button" class="btn btn-success btn-xs create-button">
+                        <i class="fa fa-plus"></i> Buat Pengumuman
+                    </button>
+                    {{-- @endpermission --}}
                 </div>
 
                 <div class="col-12 col-md-4 text-left text-center mb-2 mb-md-0 ">
@@ -70,7 +70,7 @@
                             {{-- @endpermission --}}
                         </ul>
                     </span>
-                    <font style="font-size: 16px;" class="font-weight-bold">PENGGUNA & MAHASISWA</font>
+                    <font style="font-size: 16px;" class="font-weight-bold">PENGUMUMAN</font>
                 </div>
 
                 <div class="col-md-4 d-none mb-3 mb-md-0">
@@ -91,20 +91,30 @@
 
     {{-- * Form Modal --}}
     <x-modal>
-        <x-slot name="id_modal">status-modal</x-slot>
+        <x-slot name="id_modal">create-modal</x-slot>
         <x-slot name="is_form">false</x-slot>
         <x-slot name="modal_size">xl</x-slot>
 
         <x-slot name="slot">
-            <form autocomplete="off" id="status-mahasiswa-form">
+            <form autocomplete="off" id="form">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-md-4">
                         <div class="form-group">
-                            <label for="name">Nama Mahasiswa:</label>
-                            <input class="form-control" type="text" id="name" readonly>
+                            <label for="urutan">Urutan :</label>
+                            <input type="number" name="urutan" class="form-control" id="urutan">
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="path">Gambar :</label>
+                            <div class="custom-file">
+                                <input type="file" name="path" class="custom-file-input" id="path"
+                                    accept="image/png, image/gif, image/jpeg">
+                                <label class="custom-file-label" id="path_label" for="path">Pilih Gambar</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 status_input">
                         <div class="form-group">
                             <label for="status">Status:</label>
                             <select class="form-control select" id="status" style="width: 100%" required="required"
@@ -125,13 +135,6 @@
                     </div>
                 </div>
             </form>
-
-            <div class="row mt-2">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover" id="status-mahasiswa-histories-table"
-                        style="width: 100%; font-size: 12px;"></table>
-                </div>
-            </div>
         </x-slot>
     </x-modal>
 @stop
@@ -141,6 +144,8 @@
 
 @section('js')
     <script>
+        var table, id;
+
         function refreshTable() {
             $('#action-menu').hide();
             $('#data-table').DataTable().ajax.reload();
@@ -148,125 +153,34 @@
 
         $(() => {
             // ! Initialize Data Table
-            $('#data-table').DataTable({
+            var table = $('#data-table').DataTable({
                 processing: true,
                 serverSide: true,
                 scrollX: true,
                 // scrollY: '80vh',
                 searchDelay: 1000,
-                ajax: '{{ route('users.anydata') }}',
+                ajax: '{{ route('announcements.anydata') }}',
                 fnRowCallback: (row, data, iDisplayIndex, iDisplayIndexFull) => {
-                    if (data['deleted_at']) {
+                    if (data['status'] == 'NONAKTIF') {
                         $(row).css('background-color', '#ffdbd3');
                     }
                 },
                 columns: [{
-                        data: 'name',
-                        title: 'name',
-                    },
-                    {
-                        data: 'email',
-                        title: 'email',
-                    },
-                    {
-                        data: 'status_pendaftaran',
-                        title: 'status_pendaftaran',
-                    },
-                    {
-                        data: 'student_verified_at',
-                        title: 'Diverifikasi Pada',
+                        data: 'path',
+                        title: 'Gambar',
                         render: (data, type, row) => {
-                            return data ? moment(data, 'YYYY-MM-DD hh:mm:ss').format(
-                                'DD-MM-YYYY hh:mm:ss') : '';
+                            return data ?
+                                `<img src="{{ asset('${data}') }}" class="rounded mx-auto d-block" alt="${data}" width="100" height="100">` :
+                                '404 Not Found';
                         }
                     },
                     {
-                        data: 'student_verified_by',
-                        title: 'Diverifikasi Oleh',
+                        data: 'urutan',
+                        title: 'Urutan',
                     },
                     {
-                        data: 'id',
-                        title: 'Aksi',
-                        searchable: false,
-                        orderable: false,
-                        render: function(data, type, full) {
-                            let button = ``;
-                            console.log(full.student_verified_at);
-
-
-                            if (!full.student_verified_at) {
-                                button += `
-                                    <button type="submit" class="btn btn-success btn-xs" onclick="verifikasiDaftarAkun('${full.id}', '${full.email}')">
-                                        <i class="fa fa-check"></i>
-                                    </button>
-                                `;
-                            }
-
-                            button += `
-                                <button type="submit" class="btn btn-info btn-xs" onclick="updateStatusMahasiswa('${full.id}', '${full.name}')">
-                                    <i class="fa fa-edit"></i>
-                                </button>
-                            `;
-
-                            return button;
-                        },
-                    }
-                ]
-            });
-        })
-
-        function verifikasiDaftarAkun(userId, email) {
-            Swal.fire({
-                title: 'Verifikasi?',
-                text: `Apakah user dengan email ${email} yang ingin di verifikasi sudah benar?`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: "Ya, Verifikasi Pendaftaran!",
-                cancelButtonText: "Batal!",
-                reverseButtons: true
-            }).then((result) => {
-                if (result.value) {
-                    $.post(`{{ route('users.index') }}/${userId}/verifikasiPembuatanAkun`, {
-                            _method: 'PATCH',
-                        })
-                        .done(data => handleSuccessAjax(data, null, null, '#data-table'))
-                        .fail(data => handleFailAjax(data));
-                }
-            })
-        }
-
-        function updateStatusMahasiswa(userId, name) {
-            let data = $('#data-table').DataTable().row('.selected').data();
-
-            $('#status-mahasiswa-histories-table').DataTable({
-                destroy: true,
-                serverSide: true,
-                info: false,
-                scrollCollapse: true,
-                ajax: `{{ route('users.index') }}/${userId}/status`,
-                order: [
-                    [1, 'desc']
-                ],
-                columns: [{
                         data: 'status',
                         title: 'Status',
-                        render: (data, type, row) => {
-                            let badgeClass = 'badge-success';
-
-                            switch (data) {
-                                case 'TOLAK':
-                                    badgeClass = 'badge-danger';
-                                    break;
-                                case 'BARU':
-                                    badgeClass = 'badge-warning';
-                                    break;
-                                case 'PENDING':
-                                    badgeClass = 'badge-info    ';
-                                    break;
-                            }
-
-                            return `<span class="badge ${badgeClass}" style="font-size: .8rem;">${data}</span>`;
-                        }
                     },
                     {
                         data: 'created_at',
@@ -276,38 +190,127 @@
                                 'DD-MM-YYYY hh:mm:ss') : '';
                         }
                     },
-                ],
-                preDrawCallback: function() {
-                    $(this.api().table().header()).addClass('bg-info');
-                },
-                drawCallback: settings => {
-                    adjustDataTableColumnWidth();
-                    $('.dt-scroll-body').css('min-height', '40vh');
-                }
-            })
+                    {
+                        data: 'created_by',
+                        title: 'Dibuat Oleh',
+                    },
+                    {
+                        data: 'id',
+                        title: 'Aksi',
+                        searchable: false,
+                        orderable: false,
+                        render: function(data, type, full) {
+                            return `
+                                <button type="submit" class="btn btn-info btn-xs" onclick="editAnnouncement('${full.id}', '${full.urutan}', '${full.status}')">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button type="submit" class="btn btn-danger btn-xs" onclick="deleteAnnouncement('${full.id}', '${full.urutan}')">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            `;
+                        },
+                    }
+                ]
+            });
+        })
 
-            $('#status-modal')
-                .find('#modal-header-title').html(`Status History <b>${name}</b>`).end()
-                .find('form').attr('data-id', userId).end()
+        // * Create Button
+        $('.create-button').click(() => {
+            $('#create-modal').modal('show');
+            $('#modal-header-title').text('Create Data');
+            $('.status_input').hide();
+
+            // ! Dont Reset if before is add class
+            if (!$('#create-modal form').hasClass('add')) {
+                $('#form')[0].reset();
+                $('#form select').change();
+            }
+            $('#form').removeClass('edit').addClass('add');
+            $('.submit-button').text('Create').prop('disabled', false);
+        });
+
+        // * Create and Update submit
+        $('#form').submit(function(e) {
+            e.preventDefault();
+            loading();
+            $('.submit-button').attr('disabled', true);
+
+            var formData = new FormData(this); // ! Create new FormData
+            let url = '{{ route('announcements.index') }}';
+
+            if ($(this).hasClass('edit')) {
+                url += '/' + id;
+                formData.append('_method', 'PUT');
+            }
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    handleSuccessAjax(response, '#create-modal', '#form');
+                    $('#form input[type="file"]').val('').change();
+                },
+                error: function(response) {
+                    handleFailAjax(response);
+                },
+                complete: function() {
+                    $('.submit-button').prop('disabled', false);
+                }
+            });
+        });
+
+        $('input[type="file"][name="path"]').change(function(e) {
+            let fileNames = [];
+            for (let i = 0; i < e.target.files.length; i++) {
+                fileNames.push(e.target.files[i].name);
+            }
+
+            let displayText = fileNames.join(', ');
+            if (fileNames.length > 1) {
+                displayText = fileNames.length + " gambar selected";
+            } else if (fileNames.length === 0) {
+                displayText = 'Pilih Gambar';
+            }
+            $('#path_label').html(displayText);
+        });
+
+        function editAnnouncement(annId, urutan, status) {
+            $('#urutan').val(urutan);
+            $('#status').val(status).change();
+
+            id = annId;
+
+            $('#create-modal')
+                .find('#modal-header-title').html(`Edit Data`).end()
+                .find('form').attr('data-id', annId).end()
                 .modal('show');
 
-            $('#name').val(name);
+            $('.status_input').show();
+            $('#form').removeClass('add').addClass('edit');
+            $('.submit-button').text('Ubah').prop('disabled', false);
+        }
 
-            $('#status-mahasiswa-form').off('submit').on('submit', function(e) {
-                e.preventDefault();
-                loading();
-
-                let formData = $(this).serialize();
-                let url = `{{ route('users.index') }}/${userId}/status`;
-
-                $.post(url, formData)
-                    .done(data => {
-                        handleSuccessAjax(data, null, null,
-                            '#status-mahasiswa-histories-table');
-                        refreshTable();
-                    })
-                    .fail(data => handleFailAjax(data));
-            });
+        function deleteAnnouncement(annId, urutan) {
+            Swal.fire({
+                title: 'Hapus?',
+                text: `Apakah ingin menghapus pengumuman dengan urutan ${urutan}?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: "Ya, Hapus Pengumuman!",
+                cancelButtonText: "Batal!",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    $.post(`{{ route('announcements.index') }}/${annId}`, {
+                            _method: 'DELETE',
+                        })
+                        .done(data => handleSuccessAjax(data, null, null, '#data-table'))
+                        .fail(data => handleFailAjax(data));
+                }
+            })
         }
     </script>
 @stop

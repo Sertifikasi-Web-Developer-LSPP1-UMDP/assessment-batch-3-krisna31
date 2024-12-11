@@ -74,6 +74,7 @@ class UserController extends Controller
 
     public function anydata(Request $request)
     {
+        // if ($this->getUser()->hasPermission('manage'))
         $data = User::query();
 
         return DataTables::of($data)->make(true);
@@ -81,23 +82,29 @@ class UserController extends Controller
 
     public function verifikasiPembuatanAkun(Request $request, $id)
     {
-        if (!$id) throw new HttpException(400, 'ID Tidak Boleh Kosong');
+        DB::beginTransaction();
+        try {
+            if (!$id) throw new HttpException(400, 'ID Tidak Boleh Kosong');
 
-        $user = User::find($id);
+            $user = User::find($id);
 
-        if (!$user) throw new HttpException(400, 'Data User Tidak Ditemukan');
+            if (!$user) throw new HttpException(400, 'Data User Tidak Ditemukan');
 
-        $user->update([
-            'student_verified_at' => now(),
-            'student_verified_by' => auth()->user()->name,
-        ]);
+            $user->update([
+                'student_verified_at' => now(),
+                'student_verified_by' => auth()->user()->name,
+            ]);
 
-        return response()->json([
-            'success' => true,
-            'title' => 'Berhasil',
-            'message' => 'User Berhasil Diverifikasi',
-            'data' => null,
-        ]);
+            DB::commit();
+            return $this->helperService->message(true, 'Berhasil', 'User Berhasil Diverifikasi', null);
+        } catch (HttpException $e) {
+            DB::rollBack();
+            throw new HttpException($e->getStatusCode(), $e->getMessage());
+        } catch (\Throwable $e) {
+            Log::critical($this->getUser()->username . json_encode($request->all()) . " - $e");
+            DB::rollBack();
+            throw new HttpException(500, 'Ada kesalahan di sisi server, silahkan coba lagi, jika berulang laporkan masalah ini ke administrator');
+        }
     }
 
     public function getStatusHistories(Request $request, $id)
@@ -107,8 +114,7 @@ class UserController extends Controller
         return DataTables::of($data)->make(true);
     }
 
-    public function
-    storeStatusHistories(Request $request, $id)
+    public function storeStatusHistories(Request $request, $id)
     {
         DB::beginTransaction();
         try {
@@ -134,12 +140,7 @@ class UserController extends Controller
             ]);
 
             DB::commit();
-            return response()->json([
-                'success' => true,
-                'title' => 'Berhasil',
-                'message' => 'User Berhasil Diverifikasi',
-                'data' => null,
-            ]);
+            return $this->helperService->message(true, 'Berhasil', 'User Berhasil Diubah Statusnya', null);
         } catch (HttpException $e) {
             DB::rollBack();
             throw new HttpException($e->getStatusCode(), $e->getMessage());

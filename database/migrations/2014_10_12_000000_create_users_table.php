@@ -35,6 +35,8 @@ return new class extends Migration
             $table->string('deleted_by')->nullable();
             $table->string('status_pendaftaran');
             $table->softDeletes();
+            $table->string('created_by')->default('Sistem');
+            $table->string('updated_by')->default('Sistem');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
