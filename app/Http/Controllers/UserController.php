@@ -129,6 +129,10 @@ class UserController extends Controller
                 'status' => $request->status,
             ]);
 
+            $user->update([
+                'status_pendaftaran' => $request->status,
+            ]);
+
             DB::commit();
             return response()->json([
                 'success' => true,

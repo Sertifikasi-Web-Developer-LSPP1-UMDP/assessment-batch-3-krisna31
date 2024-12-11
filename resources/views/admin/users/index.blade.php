@@ -8,7 +8,7 @@
 
 @section('content')
 
-    <div class="card">
+    <div class="card mt-3">
         {{-- * Header --}}
         <div class="card-header">
             <div class="row flex-column-reverse flex-md-row">
@@ -169,13 +169,9 @@
                         data: 'email',
                         title: 'email',
                     },
-                    {
-                        data: 'jenis_kelamin',
-                        title: 'jenis_kelamin',
-                    },
-                    {
-                        data: 'tempat_lahir',
-                        title: 'tempat_lahir',
+                    {   
+                        data: 'status_pendaftaran',
+                        title: 'status_pendaftaran',
                     },
                     {
                         data: 'student_verified_at',
