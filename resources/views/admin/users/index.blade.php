@@ -7,7 +7,6 @@
 @stop
 
 @section('content')
-
     <div class="card mt-3">
         {{-- * Header --}}
         <div class="card-header">
@@ -169,7 +168,7 @@
                         data: 'email',
                         title: 'email',
                     },
-                    {   
+                    {
                         data: 'status_pendaftaran',
                         title: 'status_pendaftaran',
                     },

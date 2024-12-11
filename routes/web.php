@@ -31,6 +31,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::patch('users/{id}/verifikasiPembuatanAkun', [UserController::class, 'verifikasiPembuatanAkun'])->name('users.verifikasiPembuatanAkun');
     Route::resource('users', UserController::class);
 
+    // Route::res
+
     // * Logs Route
     Route::get('logs', [CustomLogsController::class, 'index']);
 

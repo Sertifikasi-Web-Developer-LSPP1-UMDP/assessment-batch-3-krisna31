@@ -320,7 +320,19 @@ return [
             'icon' => 'fas fa-fw fa-user',
             // 'permission' => ''
         ],
+        [
+            'text' => 'Informasi dan Pengumuman',
+            'url' => 'admin/informasi',
+            'icon' => 'fas fa-fw fa-info-circle',
+            // 'permission' => ''
+        ],
         ['header' => 'Administrations'],
+        [
+            'text' => 'User | Roles | Permissions',
+            'url'  => 'laratrust',
+            'icon' => 'fas fa-fw fa-user-shield',
+            // 'permission' => 'create-users',
+        ],
         [
             'text' => 'System Logs',
             'url'  => 'admin/logs',
