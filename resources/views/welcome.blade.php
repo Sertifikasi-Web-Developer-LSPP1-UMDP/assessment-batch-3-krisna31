@@ -84,15 +84,28 @@
     </div>
 
     <div class="container-fluid py-5" style="background-color: #FFFFFF !important;">
+        <div class="row justify-content-center mx-5">
+            <div class="card mb-3 shadow">
+                <div class="card-body">
+                    <h1 class="card-title text-center">Tunggu Apa Lagi!</h1>
+                    <div class="d-flex justify-content-center mt-5">
+                        <a class="btn btn-primary" href="{{ route('register') }}">Daftar Sekarang</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid py-5" style="background-color: #FFFFFF !important;">
         <div class="row justify-content-center">
             @foreach ($announcements as $ann)
                 <div class="col-md-4 mb-2">
-                    <div class="card h-100">
+                    <div class="card h-100 shadow-sm">
                         <img src="{{ asset($ann->path) }}" class="card-img-top" alt="{{ $ann->title }}"
                             style="height: 300px; object-fit: cover;">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{{ $ann->title }}</h5>
-                            <p class="card-text">{!! $ann->description !!}</p>
+                            <p class="card-text">{!! nl2br($ann->description) !!}</p>
                         </div>
                     </div>
                 </div>

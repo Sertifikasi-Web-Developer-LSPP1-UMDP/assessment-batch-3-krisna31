@@ -1,12 +1,23 @@
-<!doctype html>
-<html lang="en">
+@extends('adminlte::page')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $title }}</title>
+@section('title', $title)
+
+@section('content_header')
+    {{-- <h1>Mahasiswa</h1> --}}
+@stop
+
+@section('content')
+    <div style="text-align: center;">
+        <p style="font-size: 2rem;">{!! $message !!}!</p>
+    </div>
+@stop
+
+@section('js')
+@stop
+
+@section('css')
     <style>
-        body {
+        .content-wrapper {
             background-color: {{ $color }};
             display: flex;
             justify-content: center;
@@ -15,12 +26,4 @@
             min-height: 100vh;
         }
     </style>
-</head>
-
-<body>
-    <div style="text-align: center;">
-        <p style="font-size: 2rem;">{!! $message !!}!</p>
-    </div>
-</body>
-
-</html>
+@stop
