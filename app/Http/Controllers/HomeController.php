@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\StatusPendaftaran;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -26,13 +27,43 @@ class HomeController extends Controller
         $user = $this->getUser();
 
         if (!$user->student_verified_at) {
-            return view('not_verified.index');
+            return view('message.index', [
+                'color' => '#FFFDD0',
+                'title' => 'Belum Terverifikasi',
+                'message' => 'Anda Belum Terverifikasi Admin, Silahkan Menunggu'
+            ]);
         }
 
-        if ($user->hasRole('admin')) {
-            return view('admin.dashboard.index');
+        if (!$user->hasRole('mahasiswa') || $user->status_pendaftaran == StatusPendaftaran::LOLOS->value) {
+            return view('dashboard.index');
         }
 
-        return view('student.index');
+        if ($user->hasRole('mahasiswa')) {
+            if ($user->status_pendaftaran == StatusPendaftaran::BARU->value) {
+                return view('student.index');
+            }
+
+            if ($user->status_pendaftaran == StatusPendaftaran::PENDING->value) {
+                return view('message.index', [
+                    'color' => '#FFFDD0',
+                    'title' => 'Pending',
+                    'message' => 'Pendaftaran Anda Sudah Diterima, Silahkan Cek Halaman Ini Secara Berkala'
+                ]);
+            }
+
+            if ($user->status_pendaftaran == StatusPendaftaran::TOLAK->value) {
+                return view('message.index', [
+                    'color' => '#FF7276',
+                    'title' => 'Ditolak',
+                    'message' => 'Kami Mohon Maaf, <b>Pendaftaran Anda Ditolak</b> <br>Untuk Informasi Lebih Lanjut Silahkan Datang Ke Kampus.'
+                ]);
+            }
+        }
+
+        return view('message.index', [
+            'color' => '#FFFDD0',
+            'title' => 'Tersesat?',
+            'message' => 'Apakah Anda Tersesat?'
+        ]);
     }
 }

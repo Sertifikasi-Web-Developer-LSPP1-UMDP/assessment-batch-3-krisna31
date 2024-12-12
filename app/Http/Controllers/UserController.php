@@ -61,10 +61,50 @@ class UserController extends Controller
     // /**
     //  * Update the specified resource in storage.
     //  */
-    // public function update(Request $request, string $id)
-    // {
-    //     //
-    // }
+    public function update(Request $request, User $user)
+    {
+        if (!$user->id) throw new HttpException(400, 'Data Tidak Ditemukan');
+
+        $validatedRequest = $request->validate([
+            'name' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|string|max:255|in:laki_laki,perempuan',
+            'tempat_lahir' => 'required|string|max:255',
+            'tanggal_lahir' => 'required|string|max:255|date',
+            'agama' => 'required|string|max:255|in:islam,kristen,katholik,hindu,buddha,konghucu',
+            'kewarganegaraan' => 'required|string|max:255',
+            'alamat' => 'required|string|max:65535',
+            'no_hp' => 'required|string|max:255',
+            'nama_ibu_kandung' => 'required|string|max:255',
+            'jurusan_sekolah' => 'required|string|max:255',
+            'pilihan_progam_studi' => 'required|string|max:255|in:informatika,sistem_informasi',
+            'waktu_kuliah' => 'required|string|max:255|in:pagi,sore',
+            'asal_sekolah' => 'required|string|max:255',
+            'nisn' => 'required|string|max:255',
+            'alasan_memilih_kampus' => 'required|string|max:255',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $validatedRequest['status_pendaftaran'] = StatusPendaftaran::PENDING;
+            $savedData = $user->update($validatedRequest);
+
+            StatusMahasiswaHistory::create([
+                'user_id' => $user->id,
+                'status' => StatusPendaftaran::PENDING,
+            ]);
+
+            DB::commit();
+
+            return $this->helperService->message(true, 'Berhasil', 'Pendaftaran Mahasiswa Berhasil Dilakukan', $savedData);
+        } catch (HttpException $e) {
+            DB::rollBack();
+            throw new HttpException($e->getStatusCode(), $e->getMessage());
+        } catch (\Throwable $e) {
+            Log::critical($this->getUser()->username . json_encode($request->all()) . " - $e");
+            DB::rollBack();
+            throw new HttpException(500, 'Ada kesalahan di sisi server, silahkan coba lagi, jika berulang laporkan masalah ini ke administrator');
+        }
+    }
 
     // /**
     //  * Remove the specified resource from storage.

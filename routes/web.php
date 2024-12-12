@@ -31,7 +31,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('users/{id}/status', [UserController::class, 'getStatusHistories'])->name('users.getStatusHistories');
     Route::post('users/{id}/status', [UserController::class, 'storeStatusHistories'])->name('users.getStatusHistories');
     Route::patch('users/{id}/verifikasiPembuatanAkun', [UserController::class, 'verifikasiPembuatanAkun'])->name('users.verifikasiPembuatanAkun');
-    Route::resource('users', UserController::class)->except(['create', 'store', 'show', 'edit', 'update', 'destroy']);
+    Route::resource('users', UserController::class)->except(['create', 'store', 'show', 'edit', 'destroy']);
 
     Route::get('announcements/anydata', [AnnouncementController::class, 'anydata'])->name('announcements.anydata');
     Route::resource('announcements', AnnouncementController::class);

@@ -71,6 +71,11 @@
         .select2-selection__choice {
             color: black !important;
         }
+
+        .form-group:has(input[required], select[required], textarea[required]) label:after {
+            content: "*";
+            color: red;
+        }
     </style>
     @stack('css')
     @yield('css')
@@ -246,6 +251,24 @@
             return Swal.fire(results.title, results.message, 'success');
         }
 
+        function determineAltFormatFlatpicker(inputType) {
+            switch (inputType) {
+                case 'time':
+                    return "H:i";
+                case 'datetime-local':
+                case 'datetime':
+                    return "d-m-Y H:i";
+                case 'date':
+                    return "d-m-Y";
+                case 'month':
+                    return "m-Y";
+                case 'week':
+                    return "W-Y";
+                default:
+                    return null;
+            }
+        }
+
         function adjustDataTableColumnWidth() {
             // * Adjust column width after editing
             setTimeout(() => {
@@ -299,6 +322,26 @@
             });
 
             $('.modal-dialog').resizable({});
+
+            // Time Picker
+            const inputType = $('.timepicker').attr('type');
+            const inputMode = $('.timepicker').attr('mode');
+            let defaultDate = (inputMode == 'single' ? $('.timepicker').attr('data-value') : [$('.timepicker').attr(
+                'data-value-1'), $('.timepicker').attr('data-value-2')]) ?? new Date();
+            let altFormat = determineAltFormatFlatpicker(inputType);
+            const isTimeType = inputType == 'time' || inputType == 'datetime-local';
+            $(".timepicker").flatpickr({
+                mode: inputMode ?? 'single',
+                enableTime: isTimeType,
+                noCalendar: isTimeType,
+                time_24hr: isTimeType,
+                altFormat: altFormat,
+                altInput: true,
+                dateFormat: $('.timepicker').attr('data-format') ?? 'Y-m-d',
+                defaultDate: defaultDate,
+                allowInput: true,
+                locale: "id",
+            });
         });
     </script>
     @stack('js')

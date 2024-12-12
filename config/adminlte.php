@@ -215,9 +215,9 @@ return [
     */
 
     'sidebar_mini' => 'lg',
-    'sidebar_collapse' => false,
+    'sidebar_collapse' => true,
     'sidebar_collapse_auto_size' => false,
-    'sidebar_collapse_remember' => false,
+    'sidebar_collapse_remember' => true,
     'sidebar_collapse_remember_no_transition' => true,
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => 'l',
@@ -551,6 +551,27 @@ return [
                     'type' => 'js',
                     'asset' => true,
                     'location' => '/js/jquery-ui/jquery-ui.min.js',
+                ],
+            ],
+        ],
+        // * untuk menampilkan datepicker yang lebih interaktif
+        'Flatpickr' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => '/js/flatpickr.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => '/js/flatpickr@4.6.13.dist.l10n.id.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => '/css/flatpickr.min.css',
                 ],
             ],
         ],

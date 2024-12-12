@@ -11,7 +11,7 @@
 
     <hr>
 
-    <p>Status Pendaftaran Anda: {{ auth()->user()->status_pendaftaran }}</p>
+    <p>Status Pendaftaran Anda : {{ auth()->user()->status_pendaftaran }}</p>
 @stop
 
 @section('css')
