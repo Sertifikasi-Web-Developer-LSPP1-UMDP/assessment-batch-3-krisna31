@@ -3,7 +3,6 @@
 @section('title', $title)
 
 @section('content_header')
-    {{-- <h1>Mahasiswa</h1> --}}
 @stop
 
 @section('content')
