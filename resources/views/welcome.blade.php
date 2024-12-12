@@ -17,12 +17,11 @@
     </style>
 </head>
 
-<body style="overflow-x: hidden;">
-    <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg" style=">
-            <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="{{ asset('assets/images/logo_yoklah_university.webp') }}" alt="Bootstrap" width="50"
+<body style="overflow-x: hidden; background: #FFFFFF;">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg shadow-sm">
+            <a class="navbar-brand ms-2" href="#">
+                <img src="{{ asset('assets/images/logo_yoklah_university_circle.png') }}" alt="Bootstrap" width="50"
                     height="50">
                 <span>Penerimaan Mahasiswa Baru</span>
             </a>
@@ -48,47 +47,48 @@
                     @endauth
             </div>
             @endif
-    </div>
-    </nav>
+        </nav>
     </div>
 
-    <div class="row">
-        <div class="col">
-            <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active" data-bs-interval="10000">
-                        <img src="{{ asset('assets/images/banner_1.jpg') }}" class="d-block w-100"
-                            alt="{{ asset('assets/images/banner_1.jpg') }}">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" data-bs-interval="10000">
+                            <img src="{{ asset('assets/images/banner_1.jpg') }}" class="d-block w-100"
+                                alt="{{ asset('assets/images/banner_1.jpg') }}">
+                        </div>
+                        <div class="carousel-item" data-bs-interval="2000">
+                            <img src="{{ asset('assets/images/banner_2.jpg') }}" class="d-block w-100"
+                                alt="{{ asset('assets/images/banner_2.jpg') }}">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{{ asset('assets/images/banner_3.jpg') }}" class="d-block w-100"
+                                alt="{{ asset('assets/images/banner_3.jpg') }}">
+                        </div>
                     </div>
-                    <div class="carousel-item" data-bs-interval="2000">
-                        <img src="{{ asset('assets/images/banner_2.jpg') }}" class="d-block w-100"
-                            alt="{{ asset('assets/images/banner_2.jpg') }}">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="{{ asset('assets/images/banner_3.jpg') }}" class="d-block w-100"
-                            alt="{{ asset('assets/images/banner_3.jpg') }}">
-                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
             </div>
         </div>
     </div>
 
-    <div class="container-fluid py-2" style="background-color: #FFFFFF !important;">
-        <div class="row justify-content-center mx-5">
+    <div class="container py-2" style="background-color: #FFFFFF !important;">
+        <div class="row justify-content-center">
             <div class="col-12">
                 <div class="card mb-3 shadow-sm">
                     <div class="card-body">
-                        <h1 class="card-title text-center">Tunggu Apa Lagi!</h1>
+                        <h2 class="card-title text-center">Tunggu Apa Lagi!</h2>
                         <div class="d-flex justify-content-center mt-5">
                             <a class="btn btn-primary" href="{{ route('register') }}">DAFTAR SEKARANG</a>
                         </div>
@@ -98,11 +98,15 @@
         </div>
     </div>
 
-    <div class="container-fluid py-2" style="background-color: #FFFFFF !important;">
-        <div class="row justify-content-center mx-5">
-            <div class="col-12">
-                <div class="card mb-3 shadow-sm justify-content-center">
-                    <h1 class="text-center">PENGUMUMAN</h1>
+    <div class="container py-2" style="background-color: #FFFFFF !important;">
+        <div class="justify-content-center">
+            <div class="card mb-3 shadow-sm justify-content-center">
+                <div class="row">
+                    <div class="col">
+                        <h1 class="text-center">PENGUMUMAN</h1>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
                     @foreach ($announcements as $ann)
                         <div class="col-md-4 col-lg-3 mb-2">
                             <div class="card h-100 shadow-sm">
@@ -142,8 +146,8 @@
         </div>
     </div>
 
-    <div class="container-fluid py-1" style="background-color: #FFFFFF !important;">
-        <div class="row justify-content-center mx-5">
+    <div class="container py-1" style="background-color: #FFFFFF !important;">
+        <div class="row justify-content-center">
             <div class="col">
                 <div class="card mb-3 shadow-sm justify-content-center">
                     <h1 class="text-center">About Us</h1>
@@ -159,8 +163,8 @@
         </div>
     </div>
 
-    <div class="container-fluid py-1" style="background-color: #FFFFFF !important;">
-        <div class="row justify-content-center mx-5">
+    <div class="container py-1" style="background-color: #FFFFFF !important;">
+        <div class="row justify-content-center">
             <div class="col">
                 <div class="card mb-3 shadow-sm justify-content-center">
                     <h1 class="text-center">You Can Find Us Here!</h1>
