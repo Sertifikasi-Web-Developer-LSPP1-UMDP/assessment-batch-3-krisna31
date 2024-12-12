@@ -17,9 +17,9 @@
     </style>
 </head>
 
-<body style="background-color: #FFFDD0 !important; overflow-x: hidden;">
+<body style="overflow-x: hidden;">
     <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg" style="background-color: #FFFDD0 !important;">
+        <nav class="navbar navbar-expand-lg" style=">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <img src="{{ asset('assets/images/logo_yoklah_university.webp') }}" alt="Bootstrap" width="50"
@@ -98,6 +98,9 @@
 
     <div class="container-fluid py-5" style="background-color: #FFFFFF !important;">
         <div class="row justify-content-center">
+            <div class="col-12">
+                <h1 class="text-center">PENGUMUMAN</h1>
+            </div>
             @foreach ($announcements as $ann)
                 <div class="col-md-4 col-lg-3 mb-2">
                     <div class="card h-100 shadow-sm">
@@ -133,8 +136,34 @@
         </div>
     </div>
 
+    <div class="container-fluid py-1" style="background-color: #FFFFFF !important;">
+        <div class="row justify-content-center mx-5">
+            <div class="col">
+                <div class="card mb-3 shadow-sm justify-content-center">
+                    <h1 class="text-center">About Us</h1>
+                    <div class="card-body d-flex justify-content-center">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/lQYV3m1J4gs?si=c4ECVQldz2ZQsg_N&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid py-1" style="background-color: #FFFFFF !important;">
+        <div class="row justify-content-center mx-5">
+            <div class="col">
+                <div class="card mb-3 shadow-sm justify-content-center">
+                    <h1 class="text-center">You Can Find Us Here!</h1>
+                    <div class="card-body d-flex justify-content-center">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15937.882070500256!2d104.74042730000001!3d-2.96686155!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e3b76094fcf39dd%3A0x8b4ee43321ad20a0!2sMDP%20IT%20Superstore!5e0!3m2!1sen!2sid!4v1734010496046!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid py-2 d-flex align-items-center justify-content-center"
-        style="min-height: 80px; background-color: #FFFDD0 !important;">
+        style="min-height: 80px;">
         <p class="text-center text-black mb-0">
             Copyright © {{ now()->format('Y') }} Universitas Yoklah. All rights reserved.
         </p>
