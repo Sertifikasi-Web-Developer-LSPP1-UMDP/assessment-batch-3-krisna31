@@ -19,7 +19,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $announcements = Announcement::latest('updated_at')->get();
+
+    return view('welcome', compact('announcements'));
 });
 
 Auth::routes();

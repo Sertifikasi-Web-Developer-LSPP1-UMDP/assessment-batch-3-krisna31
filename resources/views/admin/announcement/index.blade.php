@@ -113,6 +113,12 @@
 @stop
 
 @section('css')
+    <style>
+        .custom-file label::after {
+            content: "Pilih Gambar" !important;
+            color: black !important;
+        }
+    </style>
 @stop
 
 @section('js')
