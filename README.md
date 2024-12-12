@@ -91,7 +91,7 @@
 ## Plugin Frontend yang Digunakan
 
 | Plugin           | Versi      | Deskripsi                                                                 |
-|------------------|----------------------------------------------------------------------------------------|
+|------------------|------------|---------------------------------------------------------------------------|
 | `DataTables`     | 1.10.19    | Menampilkan tabel yang dinamis dan interaktif                             |
 | `Sweetalert2`    | 11.10.5    | Membuat alert yang interaktif untuk pengalaman pengguna yang lebih baik.  |
 | `Jquery-Throttle`| 1.1        | Mempermudah proses debounce dan throttle pada event di JavaScript.        |

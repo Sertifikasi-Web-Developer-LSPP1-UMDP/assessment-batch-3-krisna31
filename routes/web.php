@@ -31,7 +31,7 @@ Route::get('home', [HomeController::class, 'index'])->name('home');
 Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('users/anydata', [UserController::class, 'anydata'])->name('users.anydata');
     Route::get('users/{id}/status', [UserController::class, 'getStatusHistories'])->name('users.getStatusHistories');
-    Route::post('users/{id}/status', [UserController::class, 'storeStatusHistories'])->name('users.getStatusHistories');
+    Route::post('users/{id}/status', [UserController::class, 'storeStatusHistories'])->name('users.storeStatusHistories');
     Route::patch('users/{id}/verifikasiPembuatanAkun', [UserController::class, 'verifikasiPembuatanAkun'])->name('users.verifikasiPembuatanAkun');
     Route::patch('users/{id}/izinkanAksesDashboard', [UserController::class, 'izinkanAksesDashboard'])->name('users.izinkanAksesDashboard');
     Route::resource('users', UserController::class)->except(['create', 'store', 'show', 'edit', 'destroy']);
