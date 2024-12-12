@@ -1,5 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/UwpJJG2e)
-
 # Yokla University
 
 **Yokla University** adalah aplikasi berbasis web untuk pendaftaran mahasiswa baru, dimulai dari pembuatan akun, pengisian formulir pendaftaran, hingga pengelolaan status mahasiswa oleh admin. Aplikasi ini dikembangkan menggunakan framework **Laravel**.
@@ -79,14 +77,29 @@
 
 ## Dependensi Utama
 
-| Library                           | Versi   | Deskripsi                              |
-|---------------------------------|---------|----------------------------------------|
-| `laravel/framework`             | ^10.10  | Laravel Framework                      |
-| `jeroennoten/laravel-adminlte`  | ^3.14   | Template AdminLTE untuk Laravel        |
-| `yajra/laravel-datatables`      | ^10     | Tabel interaktif                       |
-| `santigarcor/laratrust`         | ^8.3    | Manajemen role dan hak akses           |
-| `laravel/sanctum`               | ^3.3    | Autentikasi API berbasis token         |
-| `rap2hpoutre/laravel-log-viewer`| ^2.4    | Melihat log aplikasi                   |
+| Library                         | Versi      | Deskripsi                              |
+|---------------------------------|------------|----------------------------------------|
+| `laravel/framework`             | 10.10      | Laravel Framework                      |
+| `jeroennoten/laravel-adminlte`  | 3.14       | Template AdminLTE untuk Laravel        |
+| `yajra/laravel-datatables`      | 10         | Tabel interaktif                       |
+| `santigarcor/laratrust`         | 8.3        | Manajemen role dan hak akses           |
+| `laravel/sanctum`               | 3.3        | Autentikasi API berbasis token         |
+| `rap2hpoutre/laravel-log-viewer`| 2.4        | Melihat log aplikasi                   |
+
+---
+
+## Plugin Frontend yang Digunakan
+
+| Plugin           | Versi      | Deskripsi                                                                 |
+|------------------|----------------------------------------------------------------------------------------|
+| `DataTables`     | 1.10.19    | Menampilkan tabel yang dinamis dan interaktif                             |
+| `Sweetalert2`    | 11.10.5    | Membuat alert yang interaktif untuk pengalaman pengguna yang lebih baik.  |
+| `Jquery-Throttle`| 1.1        | Mempermudah proses debounce dan throttle pada event di JavaScript.        |
+| `Moment`         | 2.30.1     | Mengolah tanggal secara mudah di JavaScript dengan fitur lengkap.         |
+| `NotifyJs`       | 3.0.0      | Menampilkan notifikasi sederhana di browser.                              |
+| `Select2`        | 4.1.0-rc.0 | Membuat input select lebih interaktif dengan pencarian dan styling.       |
+| `jquery-ui`      | 1.13.2     | Menyediakan fitur drag-and-drop untuk elemen UI seperti modal.            |
+| `Flatpickr`      | 4.6.13     | Menyediakan datepicker interaktif dengan berbagai opsi konfigurasi.       |
 
 ---
 
