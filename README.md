@@ -1,10 +1,10 @@
-# Yokla University
+# Yoklah University
 
-**Yokla University** adalah aplikasi berbasis web untuk pendaftaran mahasiswa baru, dimulai dari pembuatan akun, pengisian formulir pendaftaran, hingga pengelolaan status mahasiswa oleh admin. Aplikasi ini dikembangkan menggunakan framework **Laravel**.
+**Yoklah University** adalah aplikasi berbasis web untuk pendaftaran mahasiswa baru, dimulai dari pembuatan akun, pengisian formulir pendaftaran, hingga pengelolaan status mahasiswa oleh admin. Aplikasi ini dikembangkan menggunakan framework **Laravel**.
 
 ## Spesifikasi Proyek
 
-- **Nama Proyek**: Yokla University
+- **Nama Proyek**: Yoklah University
 - **Framework**: Laravel 10.x
 - **Bahasa Pemrograman**: PHP 8.2.4 atau > 8.x
 - **Database**: MySQL 8.0.30-winx64
@@ -45,7 +45,7 @@
      DB_CONNECTION=mysql
      DB_HOST=127.0.0.1
      DB_PORT=3306
-     DB_DATABASE=yokla_university
+     DB_DATABASE=yoklah_university
      DB_USERNAME=root
      DB_PASSWORD=your_password
      ```
