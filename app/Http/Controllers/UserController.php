@@ -118,9 +118,17 @@ class UserController extends Controller
     {
         if (!$this->getUser()->hasPermission('manage-users')) throw new HttpException(403, "Anda Tidak Memiliki Akses Pada Resources Ini");
 
-        $data = User::query();
+        try {
+            $data = User::whereHas('roles', function ($q) {
+                $q->where('name', 'mahasiswa');
+            });
 
-        return DataTables::of($data)->make(true);
+            return DataTables::of($data)->make(true);
+        } catch (\Throwable $e) {
+            Log::critical($this->getUser()->username . json_encode($request->all()) . " - $e");
+            DB::rollBack();
+            throw new HttpException(500, 'Ada kesalahan di sisi server, silahkan coba lagi, jika berulang laporkan masalah ini ke administrator');
+        }
     }
 
     public function verifikasiPembuatanAkun(Request $request, $id)
@@ -156,9 +164,15 @@ class UserController extends Controller
     {
         if (!$this->getUser()->hasPermission('update-status-user')) throw new HttpException(403, "Anda Tidak Memiliki Akses Pada Resources Ini");
 
-        $data = StatusMahasiswaHistory::where('user_id', $id);
+        try {
+            $data = StatusMahasiswaHistory::where('user_id', $id);
 
-        return DataTables::of($data)->make(true);
+            return DataTables::of($data)->make(true);
+        } catch (\Throwable $e) {
+            Log::critical($this->getUser()->username . json_encode($request->all()) . " - $e");
+            DB::rollBack();
+            throw new HttpException(500, 'Ada kesalahan di sisi server, silahkan coba lagi, jika berulang laporkan masalah ini ke administrator');
+        }
     }
 
     public function storeStatusHistories(Request $request, $id)

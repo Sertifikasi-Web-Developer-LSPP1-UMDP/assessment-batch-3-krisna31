@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Pengguna dan Mahasiswa')
+@section('title', 'Mahasiswa')
 
 @section('content_header')
-    {{-- <h1>Pengguna dan Mahasiswa</h1> --}}
+    {{-- <h1>Mahasiswa</h1> --}}
 @stop
 
 @section('content')
@@ -70,7 +70,7 @@
                             {{-- @endpermission --}}
                         </ul>
                     </span>
-                    <font style="font-size: 16px;" class="font-weight-bold">PENGGUNA & MAHASISWA</font>
+                    <font style="font-size: 16px;" class="font-weight-bold">MAHASISWA</font>
                 </div>
 
                 <div class="col-md-4 d-none mb-3 mb-md-0">
@@ -121,7 +121,7 @@
 
                 <div class="row">
                     <div class="col-12 text-right">
-                        <button type="submit" class="btn btn-success submit-button">Tambah Data</button>
+                        <button type="submit" class="btn btn-success submit-button">Ubah Data Status</button>
                     </div>
                 </div>
             </form>
@@ -156,10 +156,17 @@
                 searchDelay: 1000,
                 ajax: '{{ route('users.anydata') }}',
                 fnRowCallback: (row, data, iDisplayIndex, iDisplayIndexFull) => {
-                    if (data['deleted_at']) {
+                    if (data['deleted_at'] || data['status_pendaftaran'] == 'TOLAK') {
                         $(row).css('background-color', '#ffdbd3');
+                    } else if (!data['student_verified_at']) {
+                        $(row).css('background-color', '#ffe896');
+                    } else if (data['status_pendaftaran'] == 'LOLOS') {
+                        $(row).css('background-color', '#a1ffa4');
                     }
                 },
+                order: [
+                    [3, 'desc']
+                ],
                 columns: [{
                         data: 'name',
                         title: 'name',

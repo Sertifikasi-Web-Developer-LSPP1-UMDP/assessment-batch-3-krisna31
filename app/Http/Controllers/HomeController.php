@@ -30,7 +30,7 @@ class HomeController extends Controller
             return view('message.index', [
                 'color' => '#FFFDD0',
                 'title' => 'Belum Terverifikasi',
-                'message' => 'Anda Belum Terverifikasi Admin, Silahkan Menunggu'
+                'message' => 'Anda <b>Belum Terverifikasi</b> Admin <br> Silahkan Cek Halaman Ini Secara Berkala'
             ]);
         }
 
@@ -47,7 +47,7 @@ class HomeController extends Controller
                 return view('message.index', [
                     'color' => '#FFFDD0',
                     'title' => 'Pending',
-                    'message' => 'Pendaftaran Anda Sudah Diterima, Silahkan Cek Halaman Ini Secara Berkala'
+                    'message' => 'Pendaftaran Anda <b>Sudah Diterima</b> <br> Silahkan Cek Halaman Ini Secara Berkala'
                 ]);
             }
 
