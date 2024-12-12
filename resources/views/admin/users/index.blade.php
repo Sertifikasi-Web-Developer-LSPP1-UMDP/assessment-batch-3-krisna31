@@ -271,11 +271,23 @@
 
                             @permission('update-status-user')
                                 button += `
-                                        <button type="submit" class="btn btn-info btn-xs" onclick="updateStatusMahasiswa('${full.id}', '${full.name}')">
-                                            <i class="fa fa-edit"></i>
-                                            </button>
-                                            `;
+                                    <button type="submit" class="btn btn-info btn-xs" onclick="updateStatusMahasiswa('${full.id}', '${full.name}')">
+                                        <i class="fa fa-edit"></i>
+                                        </button>
+                                        `;
                             @endpermission
+
+                            if (full.status_pendaftaran == 'LOLOS' && !(full.permissions.some(
+                                    permission =>
+                                    permission.name && permission.name.includes(
+                                        'view-dashboard')
+                                ))) {
+                                button += `
+                                    <button type="submit" class="btn btn-primary btn-xs" onclick="diizinkanAksesDashboard('${full.id}', '${full.email}')">
+                                        <i class="fa fa-check-double"></i>
+                                        </button>
+                                        `;
+                            }
 
                             return `<div style="white-space: nowrap;">${button}</div>`;
                         },
@@ -295,7 +307,29 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {
+                    loading();
                     $.post(`{{ route('users.index') }}/${userId}/verifikasiPembuatanAkun`, {
+                            _method: 'PATCH',
+                        })
+                        .done(data => handleSuccessAjax(data, null, null, '#data-table'))
+                        .fail(data => handleFailAjax(data));
+                }
+            })
+        }
+
+        function diizinkanAksesDashboard(userId, email) {
+            Swal.fire({
+                title: 'Izinkan Akses Dashboard?',
+                text: `Apakah user dengan email ${email} yang ingin di izinkan sudah benar?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: "Ya, Izinkan Melihat Dashboard!",
+                cancelButtonText: "Batal!",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    loading();
+                    $.post(`{{ route('users.index') }}/${userId}/izinkanAksesDashboard`, {
                             _method: 'PATCH',
                         })
                         .done(data => handleSuccessAjax(data, null, null, '#data-table'))

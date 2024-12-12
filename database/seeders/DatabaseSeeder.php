@@ -55,6 +55,11 @@ class DatabaseSeeder extends Seeder
                 'display_name' => 'View Users',
                 'description' => 'View Users',
             ],
+            [
+                'name' => 'view-dashboard',
+                'display_name' => 'View Dashboard',
+                'description' => 'View Dashboard',
+            ],
         ];
 
         foreach ($permissions as $permissionData) {

@@ -34,7 +34,7 @@ class HomeController extends Controller
             ]);
         }
 
-        if (!$user->hasRole('mahasiswa')) {
+        if (!$user->hasRole('mahasiswa') || $user->hasPermission('view-dashboard')) {
             return view('dashboard.index');
         }
 

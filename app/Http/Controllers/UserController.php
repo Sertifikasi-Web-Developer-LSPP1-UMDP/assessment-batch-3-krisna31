@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enum\StatusPendaftaran;
+use App\Models\Permission;
 use App\Models\StatusMahasiswaHistory;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -119,9 +120,10 @@ class UserController extends Controller
         if (!$this->getUser()->hasPermission('manage-users')) throw new HttpException(403, "Anda Tidak Memiliki Akses Pada Resources Ini");
 
         try {
-            $data = User::whereHas('roles', function ($q) {
-                $q->where('name', 'mahasiswa');
-            });
+            $data = User::with('permissions')
+                ->whereHas('roles', function ($q) {
+                    $q->where('name', 'mahasiswa');
+                });
 
             return DataTables::of($data)->make(true);
         } catch (\Throwable $e) {
@@ -147,6 +149,34 @@ class UserController extends Controller
                 'student_verified_at' => now(),
                 'student_verified_by' => auth()->user()->name,
             ]);
+
+            DB::commit();
+            return $this->helperService->message(true, 'Berhasil', 'User Berhasil Diverifikasi', null);
+        } catch (HttpException $e) {
+            DB::rollBack();
+            throw new HttpException($e->getStatusCode(), $e->getMessage());
+        } catch (\Throwable $e) {
+            Log::critical($this->getUser()->username . json_encode($request->all()) . " - $e");
+            DB::rollBack();
+            throw new HttpException(500, 'Ada kesalahan di sisi server, silahkan coba lagi, jika berulang laporkan masalah ini ke administrator');
+        }
+    }
+
+    public function izinkanAksesDashboard(Request $request, $id)
+    {
+        if (!$this->getUser()->hasPermission('verifikasi-user')) throw new HttpException(403, "Anda Tidak Memiliki Akses Pada Resources Ini");
+
+        DB::beginTransaction();
+        try {
+            if (!$id) throw new HttpException(400, 'ID Tidak Boleh Kosong');
+
+            $user = User::find($id);
+
+            if (!$user) throw new HttpException(400, 'Data User Tidak Ditemukan');
+
+            $permission = Permission::where('name', 'view-dashboard')->first();
+
+            $user->syncPermissions([$permission->id]);
 
             DB::commit();
             return $this->helperService->message(true, 'Berhasil', 'User Berhasil Diverifikasi', null);
