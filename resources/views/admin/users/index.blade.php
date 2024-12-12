@@ -107,8 +107,8 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="status">Status:</label>
-                            <select class="form-control select" id="status" style="width: 100%" required="required"
-                                name="status" tabindex="-1" aria-hidden="true" data-placeholder="Pilih Status">
+                            <select class="form-control select" id="status" style="width: 100%" required name="status"
+                                tabindex="-1" aria-hidden="true" data-placeholder="Pilih Status">
                                 @foreach ($statuses as $status)
                                     <option value="{{ $status->value }}">
                                         {{ $status->value }}

@@ -41,7 +41,8 @@ class AnnouncementController extends Controller
         if (!$this->getUser()->hasPermission('manage-announcements')) throw new HttpException(403, "Anda Tidak Memiliki Akses Pada Resources Ini");
 
         $validatedRequest = $request->validate([
-            'urutan' => 'required|integer|unique:\App\Models\Announcement,urutan',
+            'title' => 'required|string|max:25',
+            'description' => 'required|string',
             'path' => 'required|file|image|max:10240|mimes:jpg,jpeg,png',
         ]);
 
@@ -96,7 +97,9 @@ class AnnouncementController extends Controller
         $statuses = array_map(fn($status) => $status->value, StatusGlobal::cases());
 
         $validatedRequest = $request->validate([
-            'urutan' => 'required|integer|unique:\App\Models\Announcement,urutan,' . $announcement->id,
+            // 'urutan' => 'required|integer|unique:\App\Models\Announcement,urutan,' . $announcement->id,
+            'title' => 'required|string|max:25',
+            'description' => 'required|string',
             'path' => 'sometimes|file|image|max:10240|mimes:jpg,jpeg,png',
             'status' => ['required', 'string', 'max:255', Rule::in($statuses)]
         ]);
@@ -115,7 +118,7 @@ class AnnouncementController extends Controller
             }
 
             DB::commit();
-            return $this->helperService->message(true, 'Berhasil', 'Pengumuman Berhasil Ditambahkan', $savedData);
+            return $this->helperService->message(true, 'Berhasil', 'Pengumuman Berhasil Diubah', $savedData);
         } catch (HttpException $e) {
             DB::rollBack();
             throw new HttpException($e->getStatusCode(), $e->getMessage());

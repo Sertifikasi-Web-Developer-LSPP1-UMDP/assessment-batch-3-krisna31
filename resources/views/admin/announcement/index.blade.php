@@ -30,45 +30,6 @@
                             style="padding: 0 30px">
                             Action
                         </button>
-
-                        {{-- * List Action --}}
-                        <ul class="dropdown-menu">
-                            {{-- @permission('view-users')
-                                            <li class="view-button dropdown-item"><a href="#" style="color: #367fa9"><i class="fa fa-eye"></i> View</a></li>
-                                        @endpermission --}}
-
-                            {{-- @permission('update-users') --}}
-                            <li class="update-button dropdown-item">
-                                <a href="#" style="color: #4809a0"><i class="fa fa-edit"></i> Edit</a>
-                            </li>
-                            {{-- @endpermission --}}
-
-                            {{-- @permission('add-users')
-                                            <li class="add-button dropdown-item"><a href="#" style="color: #06baca"><i class="fa fa-file-text-o"></i> Add Detail</a></li>
-                                        @endpermission --}}
-
-                            {{-- @permission('post-users') --}}
-                            {{-- <li class="post-button dropdown-item"><a href="#" style="color: #008d4c"><i
-                                            class="fa fa-bullhorn"></i> Post</a></li> --}}
-                            {{-- @endpermission --}}
-
-                            {{-- @permission('unpost-users') --}}
-                            {{-- <li class="unpost-button dropdown-item"><a href="#" style="color: #e08e0b"><i
-                                            class="fa fa-undo"></i> Unpost</a></li> --}}
-                            {{-- @endpermission --}}
-
-                            {{-- @permission('print-users') --}}
-                            {{-- <li class="print-button dropdown-item"><a
-                                        href="{{ route('users.printpdf', ['id' => 'no_premi']) }}"
-                                        id="print" style="color: #d73925"><i class="fa fa-print"></i> Print</a>
-                                </li> --}}
-                            {{-- @endpermission --}}
-
-                            {{-- @permission('delete-users') --}}
-                            <li class="delete-button dropdown-item"><a href="#" style="color: #f44336"><i
-                                        class="fa fa-trash"></i> Delete</a></li>
-                            {{-- @endpermission --}}
-                        </ul>
                     </span>
                     <font style="font-size: 16px;" class="font-weight-bold">PENGUMUMAN</font>
                 </div>
@@ -98,10 +59,16 @@
         <x-slot name="slot">
             <form autocomplete="off" id="form">
                 <div class="row">
-                    <div class="col-md-4">
+                    {{-- <div class="col-md-4">
                         <div class="form-group">
                             <label for="urutan">Urutan :</label>
                             <input type="number" name="urutan" class="form-control" id="urutan">
+                        </div>
+                    </div> --}}
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="title">Judul :</label>
+                            <input type="text" name="title" class="form-control" id="title" required>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -109,7 +76,7 @@
                             <label for="path">Gambar :</label>
                             <div class="custom-file">
                                 <input type="file" name="path" class="custom-file-input" id="path"
-                                    accept="image/png, image/gif, image/jpeg">
+                                    accept="image/png, image/gif, image/jpeg" required>
                                 <label class="custom-file-label" id="path_label" for="path">Pilih Gambar</label>
                             </div>
                         </div>
@@ -125,6 +92,12 @@
                                     </option>
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="description">Deskripsi :</label>
+                            <textarea type="text" name="description" class="form-control" id="description" required></textarea>
                         </div>
                     </div>
                 </div>
@@ -175,8 +148,12 @@
                         }
                     },
                     {
-                        data: 'urutan',
-                        title: 'Urutan',
+                        data: 'title',
+                        title: 'Judul',
+                    },
+                    {
+                        data: 'description',
+                        title: 'Deskripsi',
                     },
                     {
                         data: 'status',
@@ -201,10 +178,10 @@
                         orderable: false,
                         render: function(data, type, full) {
                             return `
-                                <button type="submit" class="btn btn-info btn-xs" onclick="editAnnouncement('${full.id}', '${full.urutan}', '${full.status}')">
+                                <button type="submit" class="btn btn-info btn-xs" onclick="editAnnouncement('${full.id}', '${full.title}', '${full.description}', '${full.status}')">
                                     <i class="fa fa-edit"></i>
                                 </button>
-                                <button type="submit" class="btn btn-danger btn-xs" onclick="deleteAnnouncement('${full.id}', '${full.urutan}')">
+                                <button type="submit" class="btn btn-danger btn-xs" onclick="deleteAnnouncement('${full.id}', '${full.title}')">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             `;
@@ -219,6 +196,7 @@
             $('#create-modal').modal('show');
             $('#modal-header-title').text('Create Data');
             $('.status_input').hide();
+            $('#path').prop('required', true);
 
             // ! Dont Reset if before is add class
             if (!$('#create-modal form').hasClass('add')) {
@@ -277,8 +255,11 @@
             $('#path_label').html(displayText);
         });
 
-        function editAnnouncement(annId, urutan, status) {
-            $('#urutan').val(urutan);
+        function editAnnouncement(annId, title, description, status) {
+            // $('#urutan').val(urutan);
+            $('#path').prop('required', false);
+            $('#title').val(title);
+            $('#description').val(description);
             $('#status').val(status).change();
 
             id = annId;
@@ -293,10 +274,10 @@
             $('.submit-button').text('Ubah').prop('disabled', false);
         }
 
-        function deleteAnnouncement(annId, urutan) {
+        function deleteAnnouncement(annId, title) {
             Swal.fire({
                 title: 'Hapus?',
-                text: `Apakah ingin menghapus pengumuman dengan urutan ${urutan}?`,
+                text: `Apakah ingin menghapus pengumuman dengan judul ${title}?`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: "Ya, Hapus Pengumuman!",

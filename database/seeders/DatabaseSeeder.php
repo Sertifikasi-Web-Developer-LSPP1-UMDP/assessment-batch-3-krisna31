@@ -69,19 +69,38 @@ class DatabaseSeeder extends Seeder
             'description' => 'Mahasiswa Role',
         ]);
 
-        $adminRole = Role::create([
+        $superadminRole = Role::create([
             'id' => 2,
+            'name' => 'superadmin',
+            'display_name' => 'Superadministrator',
+            'description' => 'Superadmin Role',
+        ]);
+
+        $superadminRole->permissions()->sync(Permission::all()->pluck('id')->toArray());
+
+        // User
+        $superadminUser = User::create([
+            'name' => 'Superadmin',
+            'email' => 'superadmin@superadmin.com',
+            'password' => bcrypt('superadmin@superadmin.com'),
+            'status_pendaftaran' => 'Superadmin',
+            'student_verified_at' => now(),
+            'student_verified_by' => 'Sistem',
+        ]);
+
+        $superadminUser->addRole($superadminRole);
+
+        $adminRole = Role::create([
+            'id' => 3,
             'name' => 'admin',
-            'display_name' => 'Administrator',
+            'display_name' => 'admin',
             'description' => 'Admin Role',
         ]);
 
-        // Assign all permissions to admin
-        $adminRole->permissions()->sync(Permission::all()->pluck('id')->toArray());
+        $adminRole->permissions()->sync(Permission::whereNot('name', 'manage-laratrust')->pluck('id')->toArray());
 
-        // Create admin user and assign admin role
         $adminUser = User::create([
-            'name' => 'Admin',
+            'name' => 'admin',
             'email' => 'admin@admin.com',
             'password' => bcrypt('admin@admin.com'),
             'status_pendaftaran' => 'Admin',

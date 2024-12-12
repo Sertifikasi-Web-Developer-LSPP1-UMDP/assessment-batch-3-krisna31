@@ -14,8 +14,9 @@ return new class extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->mediumText('description');
             $table->string('path');
-            $table->unsignedInteger('urutan');
             $table->string('created_by')->default('Sistem');
             $table->string('updated_by')->default('Sistem');
             $table->string('status')->default(StatusGlobal::AKTIF);
