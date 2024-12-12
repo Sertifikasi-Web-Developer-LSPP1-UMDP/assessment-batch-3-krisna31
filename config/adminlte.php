@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'Yoklah Sekolah',
+    'title' => 'Yoklah University',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -63,12 +63,12 @@ return [
     |
     */
 
-    'logo' => '<b>Yoklah Sekolah</b>',
+    'logo' => '<b>Yoklah University</b>',
     'logo_img' => 'assets/images/logo_yoklah_university.webp',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Logo Yoklah Sekolah',
+    'logo_img_alt' => 'Logo Yoklah University',
 
     /*
     |--------------------------------------------------------------------------
@@ -87,7 +87,7 @@ return [
         'enabled' => false,
         'img' => [
             'path' => 'assets/images/logo_yoklah_university.webp',
-            'alt' => 'Yoklah Sekolah',
+            'alt' => 'Yoklah University',
             'class' => '',
             'width' => 50,
             'height' => 50,
@@ -217,7 +217,7 @@ return [
     'sidebar_mini' => 'lg',
     'sidebar_collapse' => true,
     'sidebar_collapse_auto_size' => false,
-    'sidebar_collapse_remember' => true,
+    'sidebar_collapse_remember' => false,
     'sidebar_collapse_remember_no_transition' => true,
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => 'l',

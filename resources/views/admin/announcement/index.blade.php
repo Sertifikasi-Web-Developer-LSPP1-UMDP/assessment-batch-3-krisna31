@@ -68,7 +68,8 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="title">Judul :</label>
-                            <input type="text" name="title" class="form-control" id="title" required>
+                            <input type="text" name="title" class="form-control" id="title" required
+                                placeholder="Isi Judul Pengumuman">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -97,7 +98,7 @@
                     <div class="col-md-8">
                         <div class="form-group">
                             <label for="description">Deskripsi :</label>
-                            <textarea type="text" name="description" class="form-control" id="description" required></textarea>
+                            <textarea type="text" name="description" class="form-control" id="description" required placeholder="Isi Deskripsi"></textarea>
                         </div>
                     </div>
                 </div>
@@ -210,7 +211,7 @@
                 $('#form select').change();
             }
             $('#form').removeClass('edit').addClass('add');
-            $('.submit-button').text('Create').prop('disabled', false);
+            $('.submit-button').text('Tambah').prop('disabled', false);
         });
 
         // * Create and Update submit

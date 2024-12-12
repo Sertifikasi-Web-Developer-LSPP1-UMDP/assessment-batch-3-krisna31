@@ -89,7 +89,7 @@
                 <div class="card-body">
                     <h1 class="card-title text-center">Tunggu Apa Lagi!</h1>
                     <div class="d-flex justify-content-center mt-5">
-                        <a class="btn btn-primary" href="{{ route('register') }}">Daftar Sekarang</a>
+                        <a class="btn btn-primary" href="{{ route('register') }}">DAFTAR SEKARANG</a>
                     </div>
                 </div>
             </div>
@@ -99,13 +99,33 @@
     <div class="container-fluid py-5" style="background-color: #FFFFFF !important;">
         <div class="row justify-content-center">
             @foreach ($announcements as $ann)
-                <div class="col-md-4 mb-2">
+                <div class="col-md-4 col-lg-3 mb-2">
                     <div class="card h-100 shadow-sm">
                         <img src="{{ asset($ann->path) }}" class="card-img-top" alt="{{ $ann->title }}"
                             style="height: 300px; object-fit: cover;">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{{ $ann->title }}</h5>
-                            <p class="card-text">{!! nl2br($ann->description) !!}</p>
+
+                            <p class="card-text" id="announcement-{{ $ann->id }}">
+                                @php
+                                    $description = nl2br(e($ann->description));
+                                @endphp
+
+                                <span class="truncated-text">
+                                    @if (strlen($ann->description) > 50)
+                                        {!! nl2br(e(substr($ann->description, 0, 50))) !!}...
+                                    @else
+                                        {!! $description !!}
+                                    @endif
+                                </span>
+                                @if (strlen($ann->description) > 50)
+                                    <span class="full-text" style="display:none;">
+                                        {!! $description !!}
+                                    </span>
+                                    <a href="javascript:void(0)" class="see-more" style="display:inline;">See More</a>
+                                    <a href="javascript:void(0)" class="see-less" style="display:none;">See Less</a>
+                                @endif
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -113,13 +133,47 @@
         </div>
     </div>
 
-    <div class="container-fluid mt-5 d-flex align-items-center justify-content-center"
-        style="min-height: 40px; background-color: #FFFDD0 !important;">
-        <p class="text-center text-black">Copyright © {{ now()->format('Y') }} Universitas
-            Yoklah. All right reserved.</p>
+    <div class="container-fluid py-2 d-flex align-items-center justify-content-center"
+        style="min-height: 80px; background-color: #FFFDD0 !important;">
+        <p class="text-center text-black mb-0">
+            Copyright © {{ now()->format('Y') }} Universitas Yoklah. All rights reserved.
+        </p>
     </div>
 
+
     <script src="{{ asset('js/bootstrap5.min.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const seeMoreLinks = document.querySelectorAll('.see-more');
+            const seeLessLinks = document.querySelectorAll('.see-less');
+
+            seeMoreLinks.forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const cardText = this.closest('.card-body').querySelector('.card-text');
+                    const truncatedText = cardText.querySelector('.truncated-text');
+                    const fullText = cardText.querySelector('.full-text');
+                    truncatedText.style.display = 'none';
+                    fullText.style.display = 'inline';
+                    this.style.display = 'none';
+                    cardText.querySelector('.see-less').style.display = 'inline';
+                });
+            });
+
+            seeLessLinks.forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const cardText = this.closest('.card-body').querySelector('.card-text');
+                    const truncatedText = cardText.querySelector('.truncated-text');
+                    const fullText = cardText.querySelector('.full-text');
+                    fullText.style.display = 'none';
+                    truncatedText.style.display = 'inline';
+                    this.style.display = 'none';
+                    cardText.querySelector('.see-more').style.display = 'inline';
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

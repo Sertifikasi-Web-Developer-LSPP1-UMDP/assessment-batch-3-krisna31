@@ -160,6 +160,10 @@
                         $(row).css('background-color', '#ffdbd3');
                     } else if (!data['student_verified_at']) {
                         $(row).css('background-color', '#ffe896');
+                    } else if (data['student_verified_at'] && data['status_pendaftaran'] == 'BARU') {
+                        $(row).css('background-color', '#FDF0BE');
+                    } else if (data['status_pendaftaran'] == 'PENDING') {
+                        $(row).css('background-color', '#B3F6F9');
                     } else if (data['status_pendaftaran'] == 'LOLOS') {
                         $(row).css('background-color', '#a1ffa4');
                     }
@@ -273,7 +277,7 @@
                                             `;
                             @endpermission
 
-                            return button;
+                            return `<div style="white-space: nowrap;">${button}</div>`;
                         },
                     }
                 ]

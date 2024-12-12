@@ -34,7 +34,7 @@ class HomeController extends Controller
             ]);
         }
 
-        if (!$user->hasRole('mahasiswa') || $user->status_pendaftaran == StatusPendaftaran::LOLOS->value) {
+        if (!$user->hasRole('mahasiswa')) {
             return view('dashboard.index');
         }
 
@@ -56,6 +56,14 @@ class HomeController extends Controller
                     'color' => '#FF7276',
                     'title' => 'Ditolak',
                     'message' => 'Kami Mohon Maaf, <b>Pendaftaran Anda Ditolak</b> <br>Untuk Informasi Lebih Lanjut Silahkan Datang Ke Kampus.'
+                ]);
+            }
+
+            if ($user->status_pendaftaran == StatusPendaftaran::LOLOS->value) {
+                return view('message.index', [
+                    'color' => '#A9FF80',
+                    'title' => 'Diterima',
+                    'message' => 'Selamat, <b>Pendaftaran Anda Diterima</b> <br>Silahkan Tunggu Informasi Lebih Lanjut Melalui Email yang Terdaftar'
                 ]);
             }
         }

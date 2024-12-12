@@ -58,9 +58,9 @@ class UserController extends Controller
     //     //
     // }
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  */
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, User $user)
     {
         if (!$user->id) throw new HttpException(400, 'Data Tidak Ditemukan');
