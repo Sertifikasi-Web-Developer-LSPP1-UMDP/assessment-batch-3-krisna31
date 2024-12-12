@@ -192,6 +192,62 @@
                         title: 'Diverifikasi Oleh',
                     },
                     {
+                        data: 'jenis_kelamin',
+                        title: 'Jenis Kelamin',
+                    },
+                    {
+                        data: 'tempat_lahir',
+                        title: 'Tempat Lahir',
+                    },
+                    {
+                        data: 'tanggal_lahir',
+                        title: 'Tanggal Lahir',
+                    },
+                    {
+                        data: 'agama',
+                        title: 'Agama',
+                    },
+                    {
+                        data: 'kewarganegaraan',
+                        title: 'Kewarganegaraan',
+                    },
+                    {
+                        data: 'alamat',
+                        title: 'Alamat',
+                    },
+                    {
+                        data: 'no_hp',
+                        title: 'No HP/WA',
+                    },
+                    {
+                        data: 'nama_ibu_kandung',
+                        title: 'Nama Ibu Kandung',
+                    },
+                    {
+                        data: 'jurusan_sekolah',
+                        title: 'Jurusan Sekolah',
+                    },
+                    {
+                        data: 'pilihan_progam_studi',
+                        title: 'Pilihan Progam Studi',
+                    },
+                    {
+                        data: 'waktu_kuliah',
+                        title: 'Waktu Kuliah',
+                    },
+                    {
+                        data: 'asal_sekolah',
+                        title: 'Asal Sekolah',
+                    },
+                    {
+                        data: 'nisn',
+                        title: 'NISN',
+                    },
+                    {
+                        data: 'alasan_memilih_kampus',
+                        title: 'Alasan Memilih Kampus',
+                    },
+                    {
                         data: 'id',
                         title: 'Aksi',
                         searchable: false,
