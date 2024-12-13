@@ -30,45 +30,6 @@
                             style="padding: 0 30px">
                             Action
                         </button>
-
-                        {{-- * List Action --}}
-                        <ul class="dropdown-menu">
-                            {{-- @permission('view-users')
-                                            <li class="view-button dropdown-item"><a href="#" style="color: #367fa9"><i class="fa fa-eye"></i> View</a></li>
-                                        @endpermission --}}
-
-                            {{-- @permission('update-users') --}}
-                            <li class="update-button dropdown-item">
-                                <a href="#" style="color: #4809a0"><i class="fa fa-edit"></i> Edit</a>
-                            </li>
-                            {{-- @endpermission --}}
-
-                            {{-- @permission('add-users')
-                                            <li class="add-button dropdown-item"><a href="#" style="color: #06baca"><i class="fa fa-file-text-o"></i> Add Detail</a></li>
-                                        @endpermission --}}
-
-                            {{-- @permission('post-users') --}}
-                            {{-- <li class="post-button dropdown-item"><a href="#" style="color: #008d4c"><i
-                                            class="fa fa-bullhorn"></i> Post</a></li> --}}
-                            {{-- @endpermission --}}
-
-                            {{-- @permission('unpost-users') --}}
-                            {{-- <li class="unpost-button dropdown-item"><a href="#" style="color: #e08e0b"><i
-                                            class="fa fa-undo"></i> Unpost</a></li> --}}
-                            {{-- @endpermission --}}
-
-                            {{-- @permission('print-users') --}}
-                            {{-- <li class="print-button dropdown-item"><a
-                                        href="{{ route('users.printpdf', ['id' => 'no_premi']) }}"
-                                        id="print" style="color: #d73925"><i class="fa fa-print"></i> Print</a>
-                                </li> --}}
-                            {{-- @endpermission --}}
-
-                            {{-- @permission('delete-users') --}}
-                            <li class="delete-button dropdown-item"><a href="#" style="color: #f44336"><i
-                                        class="fa fa-trash"></i> Delete</a></li>
-                            {{-- @endpermission --}}
-                        </ul>
                     </span>
                     <font style="font-size: 16px;" class="font-weight-bold">MAHASISWA</font>
                 </div>
@@ -169,9 +130,14 @@
                     }
                 },
                 order: [
-                    [3, 'desc']
+                    [0, 'desc']
                 ],
                 columns: [{
+                        data: 'created_at',
+                        title: 'created_at',
+                        visible: false,
+                    },
+                    {
                         data: 'name',
                         title: 'name',
                     },
