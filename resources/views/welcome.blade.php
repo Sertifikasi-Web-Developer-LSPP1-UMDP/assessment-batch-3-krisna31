@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=1920, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>Yoklah University</title>
@@ -31,22 +31,24 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    {{-- <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li> --}}
-                </ul>
-                @if (Route::has('login'))
-                    @auth
-                        <a class="btn btn-primary me-2" href="{{ route('home') }}">Dashboard</a>
-                    @else
-                        <a class="btn btn-outline-success me-2" href="{{ route('login') }}">Login</a>
-                        @if (Route::has('register'))
-                            <a class="btn btn-info" href="{{ route('register') }}">Daftar</a>
-                        @endif
-                    @endauth
+                {{-- <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                </ul> --}}
+                <div class="d-flex justify-content-center">
+                    @if (Route::has('login'))
+                        @auth
+                            <a class="btn btn-primary me-2" href="{{ route('home') }}">Dashboard</a>
+                        @else
+                            <a class="btn btn-outline-success me-2" href="{{ route('login') }}">Login</a>
+                            @if (Route::has('register'))
+                                <a class="btn btn-info" href="{{ route('register') }}">Daftar</a>
+                            @endif
+                        @endauth
+                    @endif
+                </div>
             </div>
-            @endif
         </nav>
     </div>
 
