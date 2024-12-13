@@ -185,16 +185,42 @@
                         orderable: false,
                         render: function(data, type, full) {
                             return `
-                                <button type="submit" class="btn btn-info btn-xs" onclick="editAnnouncement('${full.id}', '${full.title}', '${full.description}', '${full.status}')">
-                                    <i class="fa fa-edit"></i>
-                                </button>
-                                <button type="submit" class="btn btn-danger btn-xs" onclick="deleteAnnouncement('${full.id}', '${full.title}')">
-                                    <i class="fa fa-trash"></i>
-                                </button>
+                                <div style="white-space: nowrap;">
+                                    <button type="submit" class="btn btn-info btn-xs edit-button">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button type="submit" class="btn btn-danger btn-xs" onclick="deleteAnnouncement('${full.id}', '${full.title}')">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
                             `;
                         },
                     }
-                ]
+                ],
+                drawCallback: settings => {
+                    adjustDataTableColumnWidth();
+
+                    $('.edit-button').off('click').click(function() {
+                        let data = table.row($(this).parents('tr')).data();
+                        
+                        // $('#urutan').val(urutan);
+                        $('#path').prop('required', false);
+                        $('#title').val(data.title);
+                        $('#description').val(data.description);
+                        $('#status').val(data.status).change();
+
+                        id = data.id;
+
+                        $('#create-modal')
+                            .find('#modal-header-title').html(`Edit Data`).end()
+                            .find('form').attr('data-id', data.id).end()
+                            .modal('show');
+
+                        $('.status_input').show();
+                        $('#form').removeClass('add').addClass('edit');
+                        $('.submit-button').text('Ubah').prop('disabled', false);
+                    })
+                }
             });
         })
 
@@ -261,25 +287,6 @@
             }
             $('#path_label').html(displayText);
         });
-
-        function editAnnouncement(annId, title, description, status) {
-            // $('#urutan').val(urutan);
-            $('#path').prop('required', false);
-            $('#title').val(title);
-            $('#description').val(description);
-            $('#status').val(status).change();
-
-            id = annId;
-
-            $('#create-modal')
-                .find('#modal-header-title').html(`Edit Data`).end()
-                .find('form').attr('data-id', annId).end()
-                .modal('show');
-
-            $('.status_input').show();
-            $('#form').removeClass('add').addClass('edit');
-            $('.submit-button').text('Ubah').prop('disabled', false);
-        }
 
         function deleteAnnouncement(annId, title) {
             Swal.fire({
