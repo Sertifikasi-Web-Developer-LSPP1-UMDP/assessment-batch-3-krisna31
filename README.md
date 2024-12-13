@@ -25,22 +25,26 @@
 ## Instalasi
 
 1. **Clone repository**:
+
    ```bash
    git clone https://github.com/Sertifikasi-Web-Developer-LSPP1-UMDP/assessment-batch-3-krisna31
    cd assessment-batch-3-krisna31
    ```
 
 2. **Install dependensi menggunakan Composer**:
+
    ```bash
    composer install
    ```
 
 3. **Salin file `.env` dan sesuaikan konfigurasi**:
+
    ```bash
    cp .env.example .env
    ```
 
-   - Isi detail database sesuai yang dibutuhkan:
+   - Ubah file env sesuai kebutuhan, contohnya mengubah detail kredensial untuk mengakses database yang sesuai:
+
      ```env
      DB_CONNECTION=mysql
      DB_HOST=127.0.0.1
@@ -51,27 +55,45 @@
      ```
 
 4. **Generate application key**:
+
    ```bash
    php artisan key:generate
    ```
 
 5. **Jalankan migrasi database dan seeder**:
+
    ```bash
    php artisan migrate --seed
    ```
 
 6. **Install front-end dependencies**:
+
    ```bash
    npm i
    npm run dev
    ```
 
 7. **Jalankan server lokal**:
+
    ```bash
    php artisan serve
    ```
 
 8. **Akses web di [localhost:8000](localhost:8000)**
+
+9. **Login sebagai superadmin**:
+
+   - **Email**: `superadmin@superadmin.com`
+   - **Password**: `superadmin@superadmin.com`
+   - **Role**: `superadmin`
+
+10. **Login sebagai admin**:
+
+    - **Email**: `admin@admin.com`
+    - **Password**: `admin@admin.com`
+    - **Role**: `admin`
+
+11. Untuk login sebagai mahasiswa, silakan daftar akun terlebih dahulu.
 
 ---
 
@@ -100,6 +122,13 @@
 | `Select2`        | 4.1.0-rc.0 | Membuat input select lebih interaktif dengan pencarian dan styling.       |
 | `jquery-ui`      | 1.13.2     | Menyediakan fitur drag-and-drop untuk elemen UI seperti modal.            |
 | `Flatpickr`      | 4.6.13     | Menyediakan datepicker interaktif dengan berbagai opsi konfigurasi.       |
+| `Bootstrap`     | 4.6.0 & 5.3.0      | CSS Framework.          |
+
+---
+
+## Deployment
+
+Untuk deployment, pastikan server sudah memenuhi spesifikasi minimum yang dibutuhkan. Selain itu, pastikan juga sudah mengatur konfigurasi `.env` dengan benar. dan ikuti panduan dari panduan [laravel official](https://laravel.com/docs/10.x/deployment)
 
 ---
 
@@ -117,9 +146,11 @@
 
 1. **Fork repo ini**.
 2. Buat branch fitur baru:
+
    ```bash
    git checkout -b fitur/nama_fitur_yang_akan_dibuat
    ```
+
 3. Buat PR setelah fitur berhasil dibuat.
 
 ---
@@ -131,4 +162,5 @@ Proyek ini dilisensikan di bawah lisensi **MIT**. Silakan lihat file [LICENSE](L
 ---
 
 ## Copyright
+
 Copyright ©2024 Universitas Yoklah. All right reserved.
