@@ -36,7 +36,7 @@
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li> --}}
                 </ul>
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center me-2">
                     @if (Route::has('login'))
                         @auth
                             <a class="btn btn-primary me-2" href="{{ route('home') }}">Dashboard</a>
