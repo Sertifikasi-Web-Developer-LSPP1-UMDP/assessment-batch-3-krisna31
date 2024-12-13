@@ -23,7 +23,7 @@
             <a class="navbar-brand ms-2" href="#">
                 <img src="{{ asset('assets/images/logo_yoklah_university_circle.png') }}" alt="Bootstrap" width="50"
                     height="50">
-                <span>Penerimaan Mahasiswa Baru</span>
+                <span style="font-size: 1rem;">Penerimaan Mahasiswa Baru</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
