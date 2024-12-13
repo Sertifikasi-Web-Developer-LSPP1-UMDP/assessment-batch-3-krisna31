@@ -28,6 +28,11 @@ Auth::routes();
 
 Route::get('home', [HomeController::class, 'index'])->name('home');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('changePassword', [UserController::class, 'changePassword'])->name('changePassword');
+    Route::patch('updatePassword', [UserController::class, 'updatePassword'])->name('updatePassword');
+});
+
 Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('users/anydata', [UserController::class, 'anydata'])->name('users.anydata');
     Route::get('users/{id}/status', [UserController::class, 'getStatusHistories'])->name('users.getStatusHistories');

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -241,6 +242,41 @@ class UserController extends Controller
             Log::critical($this->getUser()->username . json_encode($request->all()) . " - $e");
             DB::rollBack();
             throw new HttpException(500, 'Ada kesalahan di sisi server, silahkan coba lagi, jika berulang laporkan masalah ini ke administrator');
+        }
+    }
+    
+    public function changePassword(Request $request) {
+        return view('users.changePassword');
+    }
+    
+    public function updatePassword(Request $request) {
+        $request->validate([
+            'password' => [
+                'nullable',
+                'string',
+                'min:10',
+                'max:255',
+                'confirmed',
+            ]
+        ]);
+
+        try {
+            $user = $this->getUser();
+
+            $user->update([
+                'password' => $request->password ? bcrypt($request->password) : $user->password,
+            ]);
+            
+            $message = "User {$user->name} Tidak Berubah";
+            
+            if ($request->password) {
+                $message = "User {$user->name} Berhasil Diubah";
+            }
+
+            return redirect()->route('changePassword')->with('success', $message);
+        } catch (Throwable $e) {
+            Log::critical($this->getUser()->username . json_encode($request->all()) . " - $e");
+            return redirect()->back()->with('error', 'Terjadi Kesalahan di sisi server, silahkan coba lagi, jika berulang silahkan hubungi administrator');
         }
     }
 }
