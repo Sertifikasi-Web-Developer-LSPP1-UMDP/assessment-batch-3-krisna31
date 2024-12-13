@@ -9,7 +9,7 @@
 
     <div class="card mt-2 py-3 pb-2">
         <div class="card-header">
-            <a href="{{ route('home') }}" class="btn btn-light btn-xs pull-left"> <i class="fas fa-arrow-alt-circle-left"></i>Home</a>
+            <a href="{{ route('home') }}" class="btn btn-light btn-xs pull-left"> <i class="fas fa-arrow-alt-circle-left"></i> Home</a>
         </div>
 
         <div class="row card-body mx-5">
