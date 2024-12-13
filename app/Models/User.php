@@ -38,6 +38,11 @@ class User extends Authenticatable implements LaratrustUser
         'password' => 'hashed',
     ];
 
+    public function statusMahasiswaHistories()
+    {
+        return $this->hasMany(StatusMahasiswaHistory::class, 'user_id', 'id');
+    }
+
     public static function boot()
     {
         parent::boot();
